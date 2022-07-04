@@ -25,10 +25,10 @@ MAYAUSD_VERSION=0.18.0
 PXR_MTLX_STDLIB_SEARCH_PATHS+:=libraries
 
 
-+ MayaUSD 0.18.0 %USD%/plugin/adsk
++ MayaUSD 0.18.0 %MAYA%/plugin/adsk
 plug-ins: plugin
 
-+ MTOH 0.18.0 %USD%/lib
++ MTOH 0.18.0 %MAYA%/lib
 icons: 
 plug-ins: maya
 presets: 
