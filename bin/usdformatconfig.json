@@ -1,0 +1,109 @@
+[
+    {
+        "Name":"usdformat",
+        "Values":[
+                ],
+        "Childrens":[
+                        {
+                            "Name":"DefaultIcon",
+                            "Values":[
+                                        {"Name":"Default","Value":"usd.ico"}
+                                    ],
+                            "Childrens":[
+                                        ]
+                        },
+                        {
+                            "Name":"shell",
+                            "Values":[
+                                    ],
+                            "Childrens":[
+                              {
+                                "Name": "open",
+                                "Values": [
+                                  {
+                                    "Name": "FriendlyAppName",
+                                    "Value": "UsdDisplay"
+                                  },
+                                  {
+                                    "Name": "Icon",
+                                    "Value": "usd.ico"
+                                  }
+                                ],
+                                "Childrens": [
+                                  {
+                                    "Name": "command",
+                                    "Values": [
+                                      {
+                                        "Name": "Default",
+                                        "Value": "usddisplay.bat"
+                                      }
+                                    ],
+                                    "Childrens": [
+
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "Name": "open_by_arnold",
+                                "Values": [
+                                  {
+                                    "Name": "FriendlyAppName",
+                                    "Value": "UsdDisplayArnold"
+                                  },
+                                  {
+                                    "Name": "Icon",
+                                    "Value": "usd.ico"
+                                  }
+                                ],
+                                "Childrens": [
+                                  {
+                                    "Name": "command",
+                                    "Values": [
+                                      {
+                                        "Name": "Default",
+                                        "Value": "usddisplayarnold.bat"
+                                      }
+                                    ],
+                                    "Childrens": [
+
+                                    ]
+                                  }
+                                ]
+                              }
+                                        ]
+                        }
+                    ]
+    }
+    ,
+
+
+    {
+        "Name":".usd",
+        "Values":[
+                    {"Name":"Default","Value":"usdformat"},
+                    {"Name":"Content Type","Value":"application/usd"}
+                ],
+        "Childrens":[
+                    ]
+    },
+
+    {
+        "Name":".usda",
+        "Values":[
+                    {"Name":"Default","Value":"usdformat"},
+                    {"Name":"Content Type","Value":"application/usda"}
+                ],
+        "Childrens":[
+                    ]
+    },
+    {
+        "Name":".usdc",
+        "Values":[
+                    {"Name":"Default","Value":"usdformat"},
+                    {"Name":"Content Type","Value":"application/usdc"}
+                ],
+        "Childrens":[
+                    ]
+    }
+]

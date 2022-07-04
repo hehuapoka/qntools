@@ -1,0 +1,1 @@
+python %QNTOOLS%\scripts\desktop\newscene.py

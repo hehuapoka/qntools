@@ -1,0 +1,22 @@
+{
+  "project": {
+    "id": "E5D062E7-0E08-4737-BF37-21FDC0E79B8B",
+    "project.database": "proj_test1",
+    "project.entity": "Test1",
+    "project.full_name": "Test1",
+    "project.template": "\u5343\u9e1f\u52a8\u753b\u6a21\u677fKatana"
+  },
+  "asset": {
+    "asset.cn_name": "\u5c0f\u9b3c",
+    "asset.entity": "xiaogui",
+    "asset.link_asset_type": "Chars",
+    "id": "0741C2A0-B358-2333-1168-AC871D2D973C"
+  },
+  "directory": {
+    "id": "0741C2A0-B358-2333-1168-AC871D2D973C",
+    "asset": "Z:/CGTeamWorkProject/Test1/USD/Asset/Chars/xiaogui",
+    "tex_abc": "Z:/CGTeamWorkProject/Test1/Asset/Chars/xiaogui/Texture/approve/abc",
+    "mod_abc": "Z:/CGTeamWorkProject/Test1/Asset/Chars/xiaogui/Mod/approve/abc",
+    "tex_maya": "Z:/CGTeamWorkProject/Test1/Asset/Chars/xiaogui/Texture/approve/maya"
+  }
+}

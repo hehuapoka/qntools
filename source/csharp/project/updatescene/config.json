@@ -1,0 +1,41 @@
+{
+  "type": "Scene",
+  "project": {
+    "id": "E5D062E7-0E08-4737-BF37-21FDC0E79B8B",
+    "project.database": "proj_test1",
+    "project.entity": "Test1",
+    "project.full_name": "Test1",
+    "project.template": "\u5343\u9e1f\u52a8\u753b\u6a21\u677fKatana"
+  },
+  "asset": {
+    "asset.cn_name": "\u623f\u5b50",
+    "asset.entity": "fdsgfdg",
+    "asset.link_asset_type": "Sets",
+    "id": "D714DCA6-CCDC-3457-E3EB-B96DBD3DC1C6"
+  },
+  "directory": {
+    "id": "D714DCA6-CCDC-3457-E3EB-B96DBD3DC1C6",
+    "asset": "Z:/CGTeamWorkProject/Test1/USD/Asset/Sets/fdsgfdg",
+    "tex_abc": "Z:/CGTeamWorkProject/Test1/Asset/Sets/fdsgfdg/Texture/approve/abc",
+    "mod_abc": "Z:/CGTeamWorkProject/Test1/Asset/Sets/fdsgfdg/Mod/approve/abc",
+    "tex_maya": "Z:/CGTeamWorkProject/Test1/Asset/Sets/fdsgfdg/Texture/approve/maya"
+  },
+  "links": [
+    {
+      "id": "0741C2A0-B358-2333-1168-AC871D2D973C",
+      "asset": "Z:/CGTeamWorkProject/Test1/USD/Asset/Chars/xiaogui"
+    },
+    {
+      "id": "4AB11D8C-0CC6-759D-0E5F-2EA3BBF2D124",
+      "asset": "Z:/CGTeamWorkProject/Test1/USD/Asset/Chars/dsfgdgdfg"
+    },
+    {
+      "id": "50CE5D5B-03C5-54A4-2AF2-A02E777430FB",
+      "asset": "Z:/CGTeamWorkProject/Test1/USD/Asset/Elements/tabel"
+    },
+    {
+      "id": "4FAB1B5E-214B-8F4C-1FE1-792F5CD5C0A0",
+      "asset": "Z:/CGTeamWorkProject/Test1/USD/Asset/Elements/chuang"
+    }
+  ]
+}
