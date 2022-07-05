@@ -32,6 +32,7 @@
 #     maya.standalone.uninitialize() 		
 # except: 			
 #     pass
-import time
+import time,sys
 time.sleep(2)
-print("hello")
+with open("D:/test.txt","w+") as pf:
+    pf.write("hello world")

@@ -5,16 +5,26 @@ using System.Diagnostics;
 
 
 
-string s_cmds = $" {@"D:\hehua\dev\QNTools\scripts\cgteamwork\test.py"}";
-ProcessStartInfo processInfo = new ProcessStartInfo($"{Path.Combine(Environment.GetEnvironmentVariable("MAYA_LOCATION") ?? "", "bin\\mayapy.exe")}", s_cmds)
+//ProcessStartInfo processInfo = new ProcessStartInfo($"{Path.Combine(Environment.GetEnvironmentVariable("MAYA_LOCATION") ?? "", "bin\\mayapy.exe")}", s_cmds)
+//{
+//    CreateNoWindow = true,
+//    UseShellExecute = true,
+//    WindowStyle = ProcessWindowStyle.Normal
+
+//};
+//Process process_task = new Process { StartInfo = processInfo };
+//process_task.Start();
+//process_task.WaitForExit();
+#if DEBUG
+args = new string[] { @"E:\Work\dev\qntools\scripts\cgteamwork\test.py"};
+#endif
+using(Process pc = new Process())
 {
-    CreateNoWindow = true,
-    UseShellExecute = true,
-    WindowStyle = ProcessWindowStyle.Normal
-
-};
-Process process_task = new Process { StartInfo = processInfo };
-process_task.Start();
-process_task.WaitForExit();
-
-Console.WriteLine(s_cmds);
+    pc.StartInfo.FileName = $"{Path.Combine(Environment.GetEnvironmentVariable("MAYA_LOCATION") ?? "", "bin\\mayapy.exe")}";
+    pc.StartInfo.Arguments = String.Join(' ',args);
+    pc.StartInfo.CreateNoWindow = false;
+    pc.StartInfo.UseShellExecute = false;
+    pc.Start();
+    pc.WaitForExit();
+}
+Console.WriteLine("ok");
