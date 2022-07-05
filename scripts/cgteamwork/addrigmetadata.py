@@ -4,6 +4,7 @@ import os
 import shutil
 import sys,uuid,json
 import traceback
+import multiprocessing
 
 #加载ct_plu库
 # sys.path.append("D:/cgteamwork/bin/base/ct_plu/")
@@ -12,7 +13,8 @@ import traceback
 from cgtw2 import *
 import ct_plu
    
-
+def runtask():
+    os.system("cmd.exe /s /c \"C:\\Program Files\\Autodesk\\Maya2022\\bin\\mayapy.exe\" D:\\hehua\\dev\\QNTools\\scripts\\cgteamwork\\maya_rigmetadata.py")#maya_rigmetadata.
 #ct_base类名是固定的
 class ct_base(ct_plu.extend):
     def __init__(self):
@@ -42,7 +44,8 @@ class ct_base(ct_plu.extend):
         #t_tw.filebox.get(t_database,t_module,[t_filebox_id],)
         #infos=t_tw.task.get(t_database,t_module,t_id_list,['asset.entity','asset_type.entity'])
         for fm in t_file_list:
-            os.system("start /wait cmd /c \"{}\" D:\\hehua\\dev\\QNTools\\scripts\\cgteamwork\\maya_rigmetadata.py".format(self.getMayaPyDir()))
+
+            runtask()
 
         return self.ct_false(self.getMayaPyDir())
         
