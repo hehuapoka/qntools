@@ -1,10 +1,9 @@
 #coding:utf-8
-from distutils.log import info
 import os
 import shutil
 import sys,uuid,json
-import traceback
-import multiprocessing
+import subprocess
+
 
 #加载ct_plu库
 # sys.path.append("D:/cgteamwork/bin/base/ct_plu/")
@@ -14,7 +13,9 @@ from cgtw2 import *
 import ct_plu
    
 def runtask():
-    os.system("cmd.exe /s /c \"C:\\Program Files\\Autodesk\\Maya2022\\bin\\mayapy.exe\" D:\\hehua\\dev\\QNTools\\scripts\\cgteamwork\\maya_rigmetadata.py")#maya_rigmetadata.
+    a=subprocess.Popen("D:\\hehua\\dev\\QNTools\\bin\\RunMayaPy.exe D:\\hehua\\dev\\QNTools\\scripts\\cgteamwork\\maya_rigmetadata.py",shell=True)
+    a.wait()
+    #os.system("cmd.exe /s /c \"C:\\Program Files\\Autodesk\\Maya2022\\bin\\mayapy.exe\" D:\\hehua\\dev\\QNTools\\scripts\\cgteamwork\\maya_rigmetadata.py")#maya_rigmetadata.
 #ct_base类名是固定的
 class ct_base(ct_plu.extend):
     def __init__(self):

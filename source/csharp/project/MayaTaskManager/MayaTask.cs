@@ -4,16 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace MayaTaskManager
 {
-    public enum MayaTaskStatus {Idleing=0,Runining, Success, Failure };
+    public enum MayaTaskStatus {Runining, Success};
     public class MayaTask
     {
+        public string Id { get;} = Guid.NewGuid().ToString();
         public string Name { get; set; } = "Default";
-        public string Exec { get; set; } = Path.Combine(Environment.GetEnvironmentVariable("MAYA_LOCATION")??"", @"bin\mayapy.exe");
-        public string Args { get; set; } = "";
-        public MayaTaskStatus Status { get; set; }
+        public MayaTaskStatus Status { get {
+                                                if(Proc.HasExited)
+                                                    return MayaTaskStatus.Success;
+                                                else
+                                                    return MayaTaskStatus.Runining;
+                                            }
+        }
+
+        public string Color { get; set; } = "#444444";
+        public Process Proc { get; set; }
         
     }
 }

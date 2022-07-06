@@ -17,7 +17,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="{Binding Name}" Grid.Column="0"></TextBlock>
                         <StackPanel Orientation="Horizontal" Grid.Column="2">
-                            <Ellipse Fill="Black" Width="10" Height="10"/>
+                            <Ellipse Fill="{Binding Color}" Width="10" Height="10"/>
                             <TextBlock Text="{Binding Status}" HorizontalAlignment="Right"></TextBlock>
                         </StackPanel>
                     </Grid>

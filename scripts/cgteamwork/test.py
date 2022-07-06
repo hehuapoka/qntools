@@ -1,38 +1,18 @@
-# import sys,os
 
-# bin=os.path.join(os.environ['MAYA_LOCATION'],"bin")
-# bin2=os.path.join(os.environ['MAYA_LOCATION'],"bin2")
-# bin3=os.path.join(os.environ['MAYA_LOCATION'],"bin3")
+import socket,sys,json
 
-# path2=os.path.join(os.environ['MAYA_LOCATION'],r"Python27\Lib\site-packages")
-# path3=os.path.join(os.environ['MAYA_LOCATION'],r"Python37\Lib\site-packages")
+# 创建 socket 对象
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# _pv = sys.version.split(".")[0][-1]
-# if _pv == "3":
-#     os.environ['PATH'] = "{};{};{}".format(bin,bin3,os.environ['PATH'])
-#     sys.path.append(path3)
-# else:
-#     os.environ['PATH'] = "{};{};{}".format(bin,bin2,os.environ['PATH'])
-#     sys.path.append(path2)
+# 连接服务，指定主机和端口
+s.connect(("127.0.0.1", 10340))
 
+# 接收小于 1024 字节的数据
+xx=json.dumps({"Cmd":1,"Args":r"D:\hehua\dev\QNTools\scripts\cgteamwork\test1.py"})
+s.send(xx.encode("utf-8"))
 
-# import maya.standalone
-# try: 			
-#     maya.standalone.initialize() 		
-# except: 			
-#     pass
+msg = s.recv(1024)
 
-# import maya.cmds as cmds
+s.close()
 
-# cmds.file("D:/test/a.ma",open=True,force=True)
-# cmds.file( "D:/test/b.ma", force=True, options="v=0;", type="mayaAscii", ea=True)
-
-
-# try: 			
-#     maya.standalone.uninitialize() 		
-# except: 			
-#     pass
-import time,sys
-time.sleep(2)
-with open("D:/test.txt","w+") as pf:
-    pf.write("hello world")
+print (msg.decode('utf-8'))
