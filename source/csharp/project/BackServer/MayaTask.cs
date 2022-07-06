@@ -17,18 +17,17 @@ namespace MayaTaskManager
         }
         public string Id { get;} = Guid.NewGuid().ToString();
         public string Name { get; set; } = "Default";
-        //public MayaTaskStatus Status
-        //{
-        //    get
-        //    {
-        //        if (Proc.Responding)
-        //            return MayaTaskStatus.Success;
-        //        else
-        //            return MayaTaskStatus.Runining;
-        //    }
-        //}
+        public MayaTaskStatus Status
+        {
+            get
+            {
+                if (GetStatus())
+                    return MayaTaskStatus.Success;
+                else
+                    return MayaTaskStatus.Runining;
+            }
+        }
 
-        public string Color { get; set; } = "#444444";
         private Process?  Proc;
 
         public bool GetStatus()

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MayaTaskManager
 {
-    public enum ServerCmdType { System,MayaPy,MayaPyStatus}
+    public enum ServerCmdType { System,MayaPy,MayaPyStatus,MayaAllPyStatus}
     public class ServerCmd
     {
         public ServerCmdType Cmd { get; set; }

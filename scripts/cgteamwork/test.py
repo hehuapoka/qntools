@@ -8,7 +8,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("127.0.0.1", 10340))
 
 # 接收小于 1024 字节的数据
-xx=json.dumps({"Cmd":1,"Args":r"D:\hehua\dev\QNTools\scripts\cgteamwork\test1.py"})
+xx=json.dumps({"Cmd":1,"Args":r"E:\Work\dev\qntools\scripts\cgteamwork\test1.py"})
 s.send(xx.encode("utf-8"))
 
 msg = s.recv(1024)
