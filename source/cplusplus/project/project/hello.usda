@@ -1,0 +1,10 @@
+#usda 1.0
+
+def Xform "root"
+{
+    def Sphere "sphre"
+    {
+        double radius = 2
+    }
+}
+

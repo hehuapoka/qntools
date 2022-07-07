@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MayaRigAssetDialog</class>
+ <widget class="QDialog" name="MayaRigAssetDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>357</width>
+    <height>105</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MayaRig导入</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,3">
+     <item>
+      <widget class="QComboBox" name="ImpLevel">
+       <item>
+        <property name="text">
+         <string>高</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>低</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>角色</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="ImpType">
+       <item>
+        <property name="text">
+         <string>参考</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>导入</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QPushButton" name="Submit">
+     <property name="text">
+      <string>导入</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

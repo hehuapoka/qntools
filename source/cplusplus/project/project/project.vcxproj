@@ -133,15 +133,15 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HDARNOLD_EXPORTS=1;USD_HAS_FULLSCREEN_SHADER=1;ARNOLD_DISABLE_HDMATERIALNETWORK2=1;_WIN32;_WIN64;NOMINMAX;CMAKE_INTDIR="Release";hdArnold_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\USD\include;D:\python37\include;D:\USD\include\boost-1_70;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%QNTOOLS%\libs\USD\include;%PYTHON_INSTALL_LOCATION%\include;%QNTOOLS%\libs\USD\include\boost-1_70;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\python37\libs;D:\USD\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ar.lib;arch.lib;python37.lib;boost_atomic-vc142-mt-x64-1_70.lib;boost_numpy37-vc142-mt-x64-1_70.lib;boost_program_options-vc142-mt-x64-1_70.lib;boost_python37-vc142-mt-x64-1_70.lib;boost_regex-vc142-mt-x64-1_70.lib;cameraUtil.lib;embree3.lib;garch.lib;gf.lib;glf.lib;hd.lib;hdSt.lib;hdx.lib;hf.lib;hgi.lib;hgiGL.lib;hgiInterop.lib;hio.lib;js.lib;kind.lib;ndr.lib;osdCPU.lib;osdGPU.lib;pcp.lib;plug.lib;pxOsd.lib;sdf.lib;sdr.lib;tbb.lib;tbbmalloc.lib;tbbmalloc_proxy.lib;tbbproxy.lib;tbb_debug.lib;tbb_preview.lib;tf.lib;trace.lib;usd.lib;usdAppUtils.lib;usdGeom.lib;usdHydra.lib;usdImaging.lib;usdImagingGL.lib;usdLux.lib;usdMedia.lib;usdPhysics.lib;usdRender.lib;usdRi.lib;usdRiImaging.lib;usdShade.lib;usdSkel.lib;usdSkelImaging.lib;usdUI.lib;usdUtils.lib;usdviewq.lib;usdVol.lib;usdVolImaging.lib;vt.lib;work.lib;zlib.lib;zlibstatic.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%PYTHON_INSTALL_LOCATION%\libs;%QNTOOLS%\libs\USD\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>usd_arch.lib;usd_tf.lib;usd_gf.lib;usd_js.lib;usd_vt.lib;usd_work.lib;usd_plug.lib;usd_ar.lib;usd_kind.lib;usd_sdf.lib;usd_pcp.lib;usd_usd.lib;usd_usdGeom.lib;usd_usdPhysics.lib;usd_usdShade.lib;usd_usdUtils.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
