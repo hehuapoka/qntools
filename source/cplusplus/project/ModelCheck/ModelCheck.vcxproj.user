@@ -6,7 +6,7 @@ $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerEnvironment>PATH=%PATH%;D:\USD\USD\bin;D:\USD\USD\lib
+    <LocalDebuggerEnvironment>PATH=%PATH%;D:\hehua\dev\QNTools\libs\USD\bin;D:\hehua\dev\QNTools\libs\USD\lib
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>

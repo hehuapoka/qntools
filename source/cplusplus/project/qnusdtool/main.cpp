@@ -19,3 +19,9 @@ bool AssetModCheck(const char* a, int minpoint, int maxpoint)
     auto stage = UsdStage::Open(std::string(a), UsdStage::LoadAll);
     return IsOkayModHierarchy(stage) && IsOkayModTopology(stage, minpoint, maxpoint);
 }
+
+bool AssetAnimCheck(const char* a)
+{
+    auto stage = UsdStage::Open(std::string(a), UsdStage::LoadAll);
+    return IsOkayAnimHierarchy(stage);
+}

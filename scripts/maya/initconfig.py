@@ -1,10 +1,10 @@
 import sys,os
-def run():
-    plugin_root = os.environ['QNTOOLS'].replace("\\","/")
-    cgteamwork_python_lib = os.path.join(os.environ['CGTEAMWORK_LOCATION'],"bin\\base").replace("\\","/")
 
-    sys.path.append(plugin_root)
-    sys.path.append(cgteamwork_python_lib)
+plugin_root = os.environ['QNTOOLS'].replace("\\","/")
+cgteamwork_python_lib = os.path.join(os.environ['CGTEAMWORK_LOCATION'],"bin\\base").replace("\\","/")
+
+sys.path.append(plugin_root)
+sys.path.append(cgteamwork_python_lib)
 
 def icon_path(name):
     return plugin_root+"/icon/"+name

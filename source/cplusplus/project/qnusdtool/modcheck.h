@@ -7,6 +7,8 @@ extern "C" {
     _declspec(dllexport) bool AssetModHierarchyCheck(const char* a);
     _declspec(dllexport) bool AssetModTopologyCheck(const char* a, int minpoint = 4, int maxpoint = 4);
     _declspec(dllexport) bool AssetModCheck(const char* a, int minpoint = 4, int maxpoint = 4);
+
+    _declspec(dllexport) bool AssetAnimCheck(const char* a);
 }
 bool IsExistHierarchy(const std::string& path, UsdStageRefPtr stage)
 {
@@ -52,6 +54,7 @@ bool InUsdPrimsInVector(const std::string path, std::vector<std::string>& vec, U
     return true;
 }
 
+
 bool IsOkayModHierarchy(UsdStageRefPtr stage)
 {
     bool ok = true;
@@ -64,7 +67,7 @@ bool IsOkayModHierarchy(UsdStageRefPtr stage)
     ok = ok && InUsdPrimsInVector("/root", obj_root_c, stage);
     ok = ok && InUsdPrimsInVector("/root/geo", obj_root_geo_c, stage);
     ok = ok && InUsdPrimsInVector("/root/geo/proxy", obj_root_geo_proxy_c, stage);
-    ok = ok && InUsdPrimsInVector("/root/geo/render", obj_root_geo_render_c, stage);
+    /*ok = ok && InUsdPrimsInVector("/root/geo/render", obj_root_geo_render_c, stage);*/
     return ok;
 }
 bool IsOkayModTopology(UsdStageRefPtr stage,int minpoint = 4,int maxpoint = 4)
@@ -98,4 +101,16 @@ bool IsOkayModTopology(UsdStageRefPtr stage,int minpoint = 4,int maxpoint = 4)
         }
     }
     return true;
+}
+
+
+bool IsOkayAnimHierarchy(UsdStageRefPtr stage)
+{
+    bool ok = true;
+    std::vector<std::string> obj_root_geo_render_c = { "main","hair","cloth" };
+
+    std::vector<std::string> obj_c = { "render" };
+    ok = ok && InUsdPrimsInVector("/", obj_c, stage);
+    ok = ok && InUsdPrimsInVector("/render", obj_root_geo_render_c, stage);
+    return ok;
 }

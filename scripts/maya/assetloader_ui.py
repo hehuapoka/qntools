@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 try:
     from PySide6.QtWidgets import *
-    from PySide6.QtGui import (QIcon,QPixmap)
-    from PySide6.QtCore  import (QSize,Qt)
+    from PySide6.QtGui import *
+    from PySide6.QtCore  import *
 except:
     from PySide2.QtWidgets import *
-    from PySide2.QtGui import (QIcon,QPixmap)
-    from PySide2.QtCore  import (QSize,Qt)
+    from PySide2.QtGui import *
+    from PySide2.QtCore  import *
 
 
 class Ui_AssetLoader(object):

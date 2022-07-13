@@ -4,7 +4,7 @@ import json
 import maya.mel as mel
 
 
-_mayap = os.path.join(os.environ["QNTOOLS"],"mayascript").replace("\\","/")
+_mayap = os.path.join(os.environ['QNTOOLS'],"scripts\\maya").replace("\\","/")
 if _mayap not in sys.path:
     sys.path.append(_mayap)
 try:
@@ -21,7 +21,7 @@ import initconfig
 reload(assetloader_ui)
 reload(initconfig)
 
-initconfig.run()
+#initconfig.run()
 
 
 
@@ -332,6 +332,12 @@ class MyWin(QWidget):
             dia.exec_()
         except:
             QMessageBox.warning(self,"警告","该项目不存在绑定资产！")
+
+def run():
+    a=MyWin()
+    a.setParent(maya_win)
+    a.setWindowFlag(Qt.Window)
+    a.show()
 
 if __name__ == "__main__":
     a=MyWin()

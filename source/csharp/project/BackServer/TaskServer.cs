@@ -93,7 +93,7 @@ namespace MayaTaskManager
         private string AddNewMayaTask(string a)
         {
             Process pc = new Process();
-                pc.StartInfo.FileName = $"{Path.Combine(Environment.GetEnvironmentVariable("MAYA_LOCATION") ?? "", "bin\\mayapy.exe")}";
+                pc.StartInfo.FileName = $"{Path.Combine(Environment.GetEnvironmentVariable("MAYA_INSTALL_LOCATION") ?? "", "bin\\mayapy.exe")}";
             pc.StartInfo.Arguments = a;
             pc.StartInfo.CreateNoWindow = false;
             pc.StartInfo.UseShellExecute = false;

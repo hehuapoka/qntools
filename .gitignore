@@ -3,3 +3,5 @@
 obj/
 Release/
 Debug/
+!/libs/Maya/templete/
+!/libs/Python/

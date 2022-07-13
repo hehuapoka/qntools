@@ -29,7 +29,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect(("127.0.0.1", 10340))
 
 # 接收小于 1024 字节的数据
-xx=json.dumps({"Cmd":2,"Args":"647355e4-a59d-48f2-a8a6-2e4b81e439c2"})
+xx=json.dumps({"Cmd":2,"Args":"18ba8043-f1c4-476a-a775-1f3bb9cef143"})
 s.send(xx.encode("utf-8"))
 
 msg = s.recv(512)

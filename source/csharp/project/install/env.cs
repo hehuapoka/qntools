@@ -15,7 +15,7 @@ public static class env
         Console.WriteLine("设置QNTOOLS");
         env.SetQNTOOLS();
 
-        Console.WriteLine("设置MAYA_LOCATION");
+        Console.WriteLine("设置MAYA_INSTALL_LOCATION");
         env.SetMayaLocaltion();
 
         Console.WriteLine("设置CGTEAMWORK_LOCATION");
@@ -42,11 +42,11 @@ public static class env
         {
             Object? a = MAYA_INSTALL_LOCATION.GetValue("MAYA_INSTALL_LOCATION");
             if (a != null)
-                Environment.SetEnvironmentVariable("MAYA_LOCATION", Path.GetFullPath(Regex.Replace(a.ToString() ?? "", @"\\$", "")), EnvironmentVariableTarget.User);
+                Environment.SetEnvironmentVariable("MAYA_INSTALL_LOCATION", Path.GetFullPath(Regex.Replace(a.ToString() ?? "", @"\\$", "")), EnvironmentVariableTarget.User);
         }
         else
         {
-            Environment.SetEnvironmentVariable("MAYA_LOCATION", Path.GetFullPath(@"C:\Program Files\Autodesk\Maya2022"), EnvironmentVariableTarget.User);
+            Environment.SetEnvironmentVariable("MAYA_INSTALL_LOCATION", Path.GetFullPath(@"C:\Program Files\Autodesk\Maya2022"), EnvironmentVariableTarget.User);
         }
     }
     static void SetCgTeamWorkLocaltion()
