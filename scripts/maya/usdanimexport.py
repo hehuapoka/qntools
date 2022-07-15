@@ -51,7 +51,7 @@ def getExportHis():
             if d != None:
                 ns=cmds.referenceQuery(i,ns=True)[1:]
                 try:
-                    export_his[f"{ns}:geo"]=f"{d.group(1)}_{d.group(2)}_{asset_num}.usd"
+                    export_his[f"{ns}:render"]=f"{d.group(1)}_{d.group(2)}_{asset_num}.usd"
                 except:
                     print(u"没有该模型层级")
     return export_his
@@ -85,9 +85,6 @@ class MyWin(QWidget):
     def exitWin(self):
         self.close()
     def run(self):
-        if len(cmds.ls(sl=True)) < 1:
-            QMessageBox.warning(self,u"警告","你没有选择如何问题不能导出")
-            return
         a=QFileDialog.getExistingDirectory(self,u"设置保存文件","D:/test")
         if a != "":
 
