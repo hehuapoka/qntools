@@ -114,3 +114,6 @@ bool IsOkayAnimHierarchy(UsdStageRefPtr stage)
     ok = ok && InUsdPrimsInVector("/render", obj_root_geo_render_c, stage);
     return ok;
 }
+
+
+

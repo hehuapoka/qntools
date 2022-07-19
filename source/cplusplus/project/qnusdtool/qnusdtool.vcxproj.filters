@@ -26,5 +26,8 @@
     <ClInclude Include="modcheck.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="stagetool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
