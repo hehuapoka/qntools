@@ -13,5 +13,5 @@ import cgtw2,re
 
 if __name__ == "__main__":
     t_tw = cgtw2.tw()
-    qnassettool.CompositionAnims(t_tw)
+    qnassettool.CompositionCFXMesh(t_tw)
 

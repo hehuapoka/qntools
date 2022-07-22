@@ -11,8 +11,8 @@ try:
     maya.standalone.initialize() 		
 except: 			
     pass
-from qn.checkUtils import checkRootHierarchy
-from qn.cleanupUtils import cleanUnknown
+from qn_maya.checkUtils import checkRootHierarchy
+from qn_maya.cleanupUtils import cleanUnknown
 ##################################
 
 

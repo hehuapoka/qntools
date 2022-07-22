@@ -17,14 +17,7 @@ struct AnimInfo
 
 extern "C" {
     _declspec(dllexport) bool CreateAnimRef(int count, AnimInfo** infos, const char* path = "");
+	_declspec(dllexport) bool CompositeLayer(int count, const char** infos, const char* path="");
+	_declspec(dllexport) bool CreateAnimLayer(int count, AnimInfo** infos, const char* path="");
+	_declspec(dllexport) bool CreateCFXLayer(int count, AnimInfo** infos, const char* path = "");
 }
-
-//vector<string> split(string s, char token) {
-//	std::stringstream iss(s);
-//	string word;
-//	vector<string> vs;
-//	while (std::getline(iss, word, token)) {
-//		vs.push_back(word);
-//	}
-//	return vs;
-//}

@@ -46,7 +46,7 @@ class ct_base(ct_plu.extend):
 
         for idx,fm in enumerate(t_file_list):
             filename = os.path.basename(fm)
-            d=re.match(r"^([a-z]+)_([a-z]+)_anim_[0-9]+\.[a-z]+$",filename,re.I)
+            d=re.match(r"^([a-z]+)_([a-z]+)_cfx_mesh_[0-9]+\.[a-z]+$",filename,re.I)
             if d != None:
                 asset_type = d.group(1)
                 asset_name = d.group(2)

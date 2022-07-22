@@ -17,7 +17,7 @@ except:
 
 import usdexport_ui
 # reload(usdexport_ui)
-import qn.mayaUtils as qn_mu
+import qn_maya.mayaUtils as qn_mu
 #reload(qn_mu)
 
 
@@ -47,11 +47,11 @@ def getExportHis():
             if c != None:
                 asset_num = int(c.group(1))
             
-            d=re.match(r"^([a-z]+)_([a-z]+)_[a-z].+$",filename,re.I)
+            d=re.match(r"^([a-z]+)_([a-z]+)_rig_[lch]\.[a-z].+$",filename,re.I)
             if d != None:
                 ns=cmds.referenceQuery(i,ns=True)[1:]
                 try:
-                    export_his[f"{ns}:render"]=f"{d.group(1)}_{d.group(2)}_{asset_num}.usd"
+                    export_his[f"{ns}:render"]=f"{d.group(1)}_{d.group(2)}_anim_{asset_num}.usd"
                 except:
                     print(u"没有该模型层级")
     return export_his

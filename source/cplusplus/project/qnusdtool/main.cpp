@@ -59,3 +59,94 @@ bool CreateAnimRef(int count,AnimInfo ** infos,const char* path)
     }
            
 }
+
+
+bool CreateAnimLayer(int count, AnimInfo** infos, const char* path)
+{
+    try {
+        auto stage = UsdStage::CreateNew(path);
+
+        //创建Default his
+        auto root_sdfpath = SdfPath("/Anims");
+        auto anims = UsdGeomXform::Define(stage, root_sdfpath);
+
+        for (int i = 0; i < count; i++)
+        {
+            SdfPath sub_sdfpath = root_sdfpath.AppendChild(TfToken(infos[i]->prim_path));
+            SdfPath geo_sdfpath = sub_sdfpath.AppendChild(TfToken("geo"));
+            SdfPath render_sdfpath = geo_sdfpath.AppendChild(TfToken("render"));
+
+            UsdPrim sub_xform = stage->DefinePrim(sub_sdfpath, TfToken("Xform"));
+            UsdPrim geo_xform = stage->DefinePrim(geo_sdfpath, TfToken("Xform"));
+            UsdPrim render_xform = stage->DefinePrim(render_sdfpath, TfToken("Xform"));
+
+            render_xform.GetReferences().AddReference(infos[i]->anim_path);
+        }
+        stage->GetRootLayer()->Save();
+
+        return true;
+
+    }
+    catch (std::exception& e)
+    {
+        return false;
+    }
+
+}
+bool CreateCFXLayer(int count, AnimInfo** infos, const char* path)
+{
+    try {
+        auto stage = UsdStage::CreateNew(path);
+
+        //创建Default his
+        auto root_sdfpath = SdfPath("/Anims");
+        auto anims = UsdGeomXform::Define(stage, root_sdfpath);
+
+        for (int i = 0; i < count; i++)
+        {
+            SdfPath sub_sdfpath = root_sdfpath.AppendChild(TfToken(infos[i]->prim_path));
+            SdfPath geo_sdfpath = sub_sdfpath.AppendChild(TfToken("geo"));
+            SdfPath render_sdfpath = geo_sdfpath.AppendChild(TfToken("render"));
+
+            UsdPrim sub_xform = stage->DefinePrim(sub_sdfpath, TfToken("Xform"));
+            UsdPrim geo_xform = stage->DefinePrim(geo_sdfpath, TfToken("Xform"));
+            UsdPrim render_xform = stage->DefinePrim(render_sdfpath, TfToken("Xform"));
+
+            render_xform.GetReferences().AddReference(infos[i]->anim_path);
+        }
+        stage->GetRootLayer()->Save();
+
+        return true;
+
+    }
+    catch (std::exception& e)
+    {
+        return false;
+    }
+
+}
+
+bool CompositeLayer(int count, const char** infos,const char* path)
+{
+    try {
+        auto stage = UsdStage::CreateNew(path);
+
+        //add sublayer
+        
+
+
+        for (int i = 0; i < count; i++)
+        {
+            stage->GetRootLayer()->InsertSubLayerPath(TfToken(infos[i]));
+        }
+        stage->GetRootLayer()->Save();
+
+        return true;
+
+    }
+    catch (std::exception& e)
+    {
+        return false;
+    }
+
+}

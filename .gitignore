@@ -1,7 +1,8 @@
 .vs/
-/libs/
+/libs/*
+!/libs/Python/
+/libs/Maya/*
+!/libs/Maya/templete/
 obj/
 Release/
 Debug/
-!/libs/Maya/templete/
-!/libs/Python/
