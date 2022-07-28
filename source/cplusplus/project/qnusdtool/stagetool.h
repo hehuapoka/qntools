@@ -20,4 +20,5 @@ extern "C" {
 	_declspec(dllexport) bool CompositeLayer(int count, const char** infos, const char* path="");
 	_declspec(dllexport) bool CreateAnimLayer(int count, AnimInfo** infos, const char* path="");
 	_declspec(dllexport) bool CreateCFXLayer(int count, AnimInfo** infos, const char* path = "");
+	_declspec(dllexport) void ModifyUsdFilePath(const char* usd_path);
 }

@@ -141,7 +141,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%PYTHON_INSTALL_LOCATION%\libs;%QNTOOLS%\libs\USD\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>usd_arch.lib;usd_tf.lib;usd_gf.lib;usd_js.lib;usd_vt.lib;usd_work.lib;usd_plug.lib;usd_ar.lib;usd_kind.lib;usd_sdf.lib;usd_pcp.lib;usd_usd.lib;usd_usdGeom.lib;usd_usdPhysics.lib;usd_usdShade.lib;usd_usdUtils.lib;tbb.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>usd_arch.lib;usd_tf.lib;usd_gf.lib;usd_js.lib;usd_vt.lib;usd_work.lib;usd_plug.lib;usd_ar.lib;usd_kind.lib;usd_sdf.lib;usd_pcp.lib;usd_usd.lib;usd_usdGeom.lib;usd_usdPhysics.lib;usd_usdShade.lib;usd_usdUtils.lib;tbb.lib;boost_filesystem-vc142-mt-x64-1_70.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

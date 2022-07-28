@@ -65,6 +65,15 @@ def exportAnims(data):
             qn_mu.usdExportCmd(out_path,data['sf'],data['ef'],data['c'],data['uv'],data['n'],data['mat'])
         except:
             print(u"不能导出该ref")
+
+def exportCamera(data,cam_path):
+
+    try:
+        cmds.select(cam_path)
+        out_path = os.path.join(data['path'],"main_camera.usd").replace("\\","/")
+        qn_mu.usdExportCmd(out_path,data['sf'],data['ef'],data['c'],data['uv'],data['n'],data['mat'])
+    except:
+        print(u"不能导出该ref")
 #exportAnims()
 
 
@@ -79,9 +88,25 @@ class MyWin(QWidget):
 
         self.ui.exit.clicked.connect(self.exitWin)
         self.ui.submit.clicked.connect(self.run)
+        self.ui.CameraPick.clicked.connect(self.clickCameraButton)
 
     def init(self):
         self.ui.uv.setChecked(Qt.CheckState.Checked)
+        import maya.cmds as cmds
+        default_camera = ['frontShape', 'perspShape', 'sideShape', 'topShape','backShape', 'leftShape', 'bottomShape']
+        c_cam = None
+        for cam in cmds.ls(ca=True):
+            if cam not in default_camera:
+                c_cam = cmds.listRelatives(cam,p=True)[0]
+        if c_cam != None:
+            self.ui.Camera.setText(c_cam)
+    def clickCameraButton(self):
+        try:
+            sel=cmds.ls(sl=True)[0]
+            self.ui.Camera.setText(sel)
+        except:
+            pass
+            
     def exitWin(self):
         self.close()
     def run(self):
@@ -97,6 +122,7 @@ class MyWin(QWidget):
                 "mat":self.ui.material.isChecked()
             }
             Mthread.executeInMainThreadWithResult(exportAnims,data)
+            Mthread.executeInMainThreadWithResult(exportCamera,data,self.ui.Camera.text())
 
 def run():
     a=MyWin()

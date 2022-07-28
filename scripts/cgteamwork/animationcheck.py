@@ -19,7 +19,12 @@ import ct_plu
 class ct_base(ct_plu.extend):
     def __init__(self):
         ct_plu.extend.__init__(self)#继承 
-    
+    def InAssetLib(self,asset_name,asset_type,infos):
+        for info in infos:
+            if info['asset.entity'] == asset_name and info['asset.link_asset_type'] == asset_type:
+                return True
+        return False
+        
     #重写run,外部调用
     def run(self, a_dict_data):
         t_argv          = ct_plu.argv(a_dict_data)  
@@ -36,9 +41,35 @@ class ct_base(ct_plu.extend):
         
         t_tw = tw()
         #-返回错误,拖入进程将不再往下继续执行
-        for f in t_file_list:
-            if not qnusdtool.AssetAnimCheckFunc(f):
-                return self.ct_false(u'错误...模型层级结构不正确或者面的点数不符合要求，也有可能包含未知类型(可能你导出了材质)')
+        ids=t_tw.info.get_id(db=t_database, module="asset", filter_list=[])
+
+        infos = t_tw.info.get(db=t_database, module="asset", id_list=ids, field_sign_list=['asset.entity','asset.link_asset_type'])
+
+
+        for idx,fm in enumerate(t_file_list):
+            filename = os.path.basename(fm)
+            d=re.match(r"^([a-z]+)_([a-z]+)_anim_[0-9]+\.[a-z]+$",filename,re.I)
+            if d != None:
+                asset_type = d.group(1)
+                asset_name = d.group(2)
+                if self.InAssetLib(asset_name,asset_type,infos):
+                    target_dir = os.path.dirname(t_des_file_list[idx])
+                    target_filename = os.path.join(target_dir,filename).replace("\\","/")
+                    t_des_file_list[idx] = target_filename
+                    if not qnusdtool.AssetAnimCheckFunc(fm):
+                        return self.ct_false(u'错误...模型层级结构不正确或者面的点数不符合要求，也有可能包含未知类型(可能你导出了材质)')
+                else:
+                    return self.ct_false(u"失败,请检查你的文件名称")
+            elif(filename == "main_camera.usd"):
+                pass
+            else:
+                return self.ct_false(u"失败,请检查你的文件名称格式")
+
+
+
+        # for f in t_file_list:
+        #     if not qnusdtool.AssetAnimCheckFunc(f):
+        #         return self.ct_false(u'错误...模型层级结构不正确或者面的点数不符合要求，也有可能包含未知类型(可能你导出了材质)')
         #return self.ct_false(u'错误...模型层级结构不正确或者面的点数不符合要求，也有可能包含未知类型(可能你导出了材质)')
         
 if __name__ == "__main__":

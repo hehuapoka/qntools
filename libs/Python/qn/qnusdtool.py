@@ -49,10 +49,14 @@ def AssetAnimCheckFunc(path):
     else:
         return _lib_add.AssetAnimCheck(bytes(path))
 
-def CreateAnimLayer(a,path):
-    if _pv == "3":
+def CreateAnimLayer(a,path,type=0):
+    if type == 0:
         func=_lib_add.CreateAnimLayer
-        func.restype = ctypes.c_bool
+    else:
+        func=_lib_add.CreateAnimRef
+    func.restype = ctypes.c_bool
+
+    if _pv == "3":
         #func.argtypes = (ctypes.c_int,ctypes.POINTER(ctypes.POINTER(AnimInfo)),ctypes.c_char_p)
         c=(ctypes.POINTER(AnimInfo)*len(a))()
         for idx,i in enumerate(a):
@@ -61,14 +65,15 @@ def CreateAnimLayer(a,path):
         return func(len(a),c,bytes(path,'utf-8'))
 
     else:
-        func=_lib_add.CreateAnimLayer
-        func.restype = ctypes.c_bool
         #func.argtypes = (ctypes.c_int,ctypes.POINTER(ctypes.POINTER(AnimInfo)),ctypes.c_char_p)
         c=(ctypes.POINTER(AnimInfo)*len(a))()
         for idx,i in enumerate(a):
             ix = AnimInfo(bytes(i['prim_path']),bytes(i['asset_path']),bytes(i['anim_path']))
             c[idx] = ctypes.pointer(ix)
         return func(len(a),c,bytes(path))
+
+def CreateCFXLayer(a,path):
+    return CreateAnimLayer(a,path,0)
 
 def CompositeLayer(a,path):
     if _pv == "3":
@@ -89,12 +94,17 @@ def CompositeLayer(a,path):
             c[idx] = ctypes.c_char_p(bytes(i))
         return func(len(a),c,bytes(path))
 
-# def TestA():
-#     a = CreateAnimLayer([{'prim_path':"Elements_chuang",
-#                             'asset_path':"./Elements_chuang_mod.usd",
-#                             'anim_path':"./Elements_chuang_0.usd"}],
-#                 "D:/test/f.usda")
-#     print(a)
+def TestA():
+    a = CreateAnimLayer([{'prim_path':"Elements_chuang",
+                            'asset_path':"./Elements_chuang_mod.usd",
+                            'anim_path':"./Elements_chuang_0.usd"}],
+                "Z:/CGTeamWorkProject/Test1/USD/Shot/SC01/Shot001/Lighting/temp/SC01_Shot001_sets.usda",0)
+    b = CreateAnimLayer([{'prim_path':"Elements_chuang",
+                            'asset_path':"./Elements_chuang_mod.usd",
+                            'anim_path':"./Elements_chuang_0.usd"}],
+                "Z:/CGTeamWorkProject/Test1/USD/Shot/SC01/Shot001/Lighting/temp/SC01_Shot001_sets.usda",1)
+    print(a)
+    print(b)
 # def TestB():
 #     a = CompositeLayer(["./Elements_chuang_0.usd","./Elements_chuang_1.usd","./Elements_chuang_2.usd"],"D:/test/f.usda")
 #     print(a)

@@ -56,6 +56,8 @@ class ct_base(ct_plu.extend):
                     t_des_file_list[idx] = target_filename
                 else:
                     return self.ct_false(u"失败,请检查你的文件名称")
+            elif(filename == "main_camera.usd"):
+                pass
             else:
                 return self.ct_false(u"失败,请检查你的文件名称格式")
         

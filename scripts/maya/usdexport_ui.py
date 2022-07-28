@@ -22,38 +22,44 @@ class Ui_QNUsdExport(object):
         self.start_frame = QSpinBox(self.groupBox)
         self.start_frame.setObjectName(u"start_frame")
         self.start_frame.setValue(1)
-        self.start_frame.setMinimum(-10000)
-        self.start_frame.setMaximum(10000)
 
-        self.gridLayout.addWidget(self.start_frame, 0, 0, 1, 1)
-
-        self.end_frame = QSpinBox(self.groupBox)
-        self.end_frame.setObjectName(u"end_frame")
-        self.end_frame.setValue(1)
-        self.end_frame.setMinimum(-10000)
-        self.end_frame.setMaximum(10000)
-
-        self.gridLayout.addWidget(self.end_frame, 0, 1, 1, 1)
-
-        self.display_color = QCheckBox(self.groupBox)
-        self.display_color.setObjectName(u"display_color")
-
-        self.gridLayout.addWidget(self.display_color, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.start_frame, 1, 0, 1, 1)
 
         self.material = QCheckBox(self.groupBox)
         self.material.setObjectName(u"material")
 
-        self.gridLayout.addWidget(self.material, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.material, 3, 0, 1, 1)
 
-        self.uv = QCheckBox(self.groupBox)
-        self.uv.setObjectName(u"uv")
+        self.display_color = QCheckBox(self.groupBox)
+        self.display_color.setObjectName(u"display_color")
 
-        self.gridLayout.addWidget(self.uv, 3, 0, 1, 1)
+        self.gridLayout.addWidget(self.display_color, 2, 0, 1, 1)
 
         self.subdiv = QCheckBox(self.groupBox)
         self.subdiv.setObjectName(u"subdiv")
 
-        self.gridLayout.addWidget(self.subdiv, 4, 0, 1, 1)
+        self.gridLayout.addWidget(self.subdiv, 5, 0, 1, 1)
+
+        self.uv = QCheckBox(self.groupBox)
+        self.uv.setObjectName(u"uv")
+
+        self.gridLayout.addWidget(self.uv, 4, 0, 1, 1)
+
+        self.end_frame = QSpinBox(self.groupBox)
+        self.end_frame.setObjectName(u"end_frame")
+        self.end_frame.setValue(1)
+
+        self.gridLayout.addWidget(self.end_frame, 1, 1, 1, 1)
+
+        self.Camera = QLineEdit(self.groupBox)
+        self.Camera.setObjectName(u"Camera")
+
+        self.gridLayout.addWidget(self.Camera, 0, 0, 1, 1)
+
+        self.CameraPick = QPushButton(self.groupBox)
+        self.CameraPick.setObjectName(u"CameraPick")
+
+        self.gridLayout.addWidget(self.CameraPick, 0, 1, 1, 1)
 
 
         self.verticalLayout.addWidget(self.groupBox)
@@ -89,10 +95,11 @@ class Ui_QNUsdExport(object):
     def retranslateUi(self, QNUsdExport):
         QNUsdExport.setWindowTitle(QCoreApplication.translate("QNUsdExport", u"USD\u5bfc\u51fa", None))
         self.groupBox.setTitle(QCoreApplication.translate("QNUsdExport", u"\u5bfc\u51fa\u9009\u9879", None))
-        self.display_color.setText(QCoreApplication.translate("QNUsdExport", u"\u5bfc\u51fa\u9876\u70b9\u989c\u8272", None))
         self.material.setText(QCoreApplication.translate("QNUsdExport", u"\u5bfc\u51fa\u6750\u8d28", None))
-        self.uv.setText(QCoreApplication.translate("QNUsdExport", u"\u5bfc\u51faUV", None))
+        self.display_color.setText(QCoreApplication.translate("QNUsdExport", u"\u5bfc\u51fa\u9876\u70b9\u989c\u8272", None))
         self.subdiv.setText(QCoreApplication.translate("QNUsdExport", u"\u5bfc\u51fa\u7ec6\u5206\u6a21\u578b", None))
+        self.uv.setText(QCoreApplication.translate("QNUsdExport", u"\u5bfc\u51faUV", None))
+        self.CameraPick.setText(QCoreApplication.translate("QNUsdExport", u"\u9009\u62e9\u76f8\u673a", None))
         self.submit.setText(QCoreApplication.translate("QNUsdExport", u"\u786e\u5b9a", None))
         self.exit.setText(QCoreApplication.translate("QNUsdExport", u"\u53d6\u6d88", None))
     # retranslateUi

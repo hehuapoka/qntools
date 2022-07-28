@@ -1,5 +1,9 @@
 #pragma once
+#define BOOST_ALL_DYN_LINK
 // IMPORT STANDARD LIBRARIES
+#include <ctype.h>
+#include <boost/filesystem.hpp>
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -12,4 +16,10 @@
 #include <pxr/usd/usdGeom/mesh.h>
 #include <pxr/usd/usdGeom/primvarsAPI.h>
 #include <pxr/usd/usd/attribute.h>
-#include <pxr/usd/usd/primRange.h>
+#include <pxr/usd/usd/prim.h>
+#include <pxr/usd/usd/primrange.h>
+#include <pxr/usd/usd/primCompositionQuery.h>
+
+
+
+
