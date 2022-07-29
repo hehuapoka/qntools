@@ -94,6 +94,18 @@ def CompositeLayer(a,path):
             c[idx] = ctypes.c_char_p(bytes(i))
         return func(len(a),c,bytes(path))
 
+
+def SolverUSDPathToRelation(path):
+    if _pv == "3":
+        func=_lib_add.ModifyUsdFilePath
+        #func.argtypes = (ctypes.c_int,ctypes.POINTER(ctypes.POINTER(AnimInfo)),ctypes.c_char_p)
+        func(bytes(path,'utf-8'))
+
+    else:
+        func=_lib_add.ModifyUsdFilePath
+
+        func(bytes(path))
+
 def TestA():
     a = CreateAnimLayer([{'prim_path':"Elements_chuang",
                             'asset_path':"./Elements_chuang_mod.usd",
@@ -108,3 +120,5 @@ def TestA():
 # def TestB():
 #     a = CompositeLayer(["./Elements_chuang_0.usd","./Elements_chuang_1.usd","./Elements_chuang_2.usd"],"D:/test/f.usda")
 #     print(a)
+def TestC():
+    SolverUSDPathToRelation("D:/test/comps2.usda")

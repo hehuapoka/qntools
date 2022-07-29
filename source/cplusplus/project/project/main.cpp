@@ -2,6 +2,7 @@
 #define BOOST_ALL_DYN_LINK
 #include <iostream>
 #include <string>
+#include <map>
 #include <ctype.h>
 #include <boost/filesystem.hpp>
 //#include <boost/algorithm/string.hpp>
@@ -13,6 +14,7 @@
 #include <pxr/usd/usd/prim.h>
 #include <pxr/usd/usd/primrange.h>
 #include <pxr/usd/usd/primCompositionQuery.h>
+#include <pxr/usd/pcp/layerStack.h>
 
 
 using namespace pxr;
@@ -59,60 +61,85 @@ std::vector<std::string> RemoveSubLayer(SdfLayerHandle layer, const std::string 
     return GetRelSublayerPathVector(name_layers, layer_path);
 }
 
-std::vector<std::string> RemoveReferences(std::vector<UsdPrimCompositionQueryArc>& layers)
+void RemoveReferences(std::string primpath,std::vector<UsdPrimCompositionQueryArc>& layers, std::map<std::string, std::vector<std::string>>& reflayers)
 {
-    std::vector<std::string> reflayers;
-
     for (int k = 0;k < layers.size();k++)
     {
-        reflayers.push_back(layers[k].GetIntroducingLayer()->GetRealPath());
-    }
+        auto l_a=layers[k].GetTargetNode().GetLayerStack()->GetLayers()[0];
 
-    return reflayers;
+
+        reflayers[primpath].push_back(l_a->GetRealPath());
+    }
 }
 
 
 void ModifyUsdFilePath(const char* usd_path)
 {
+    std::map<std::string, std::vector<std::string>> reference_layers;
 
     auto stage = UsdStage::Open(usd_path);
     //remove all sublayer
     auto root_layer = stage->GetRootLayer();
+    stage->SetEditTarget(root_layer);
 
 
     std::vector<std::string> a = RemoveSubLayer(root_layer,usd_path);
     
+    // remove references
     UsdPrimRange range = stage->TraverseAll();
     for (auto i = range.begin(); i != range.end(); i++)
     {
+        
         if (!i->HasAuthoredReferences()) continue;
-        UsdPrim prim = *i;
         //RemoveReferences(prim);
 
         UsdPrimCompositionQuery layers_a = UsdPrimCompositionQuery::GetDirectReferences(*i);
         std::vector<UsdPrimCompositionQueryArc> layers = layers_a.GetCompositionArcs();
-
         if (layers.empty()) continue;
 
-        std::vector<std::string> b = RemoveReferences(layers);
-        //modfiy path
-        
-        
-        
-        
-        
-        //
+        RemoveReferences(i->GetPrimPath().GetAsString(),layers,reference_layers);
         i->GetReferences().ClearReferences();
-
-        for (size_t t = 0; t < b.size(); t++)
-            i->GetReferences().AddReference(GetRelPath(b[t],usd_path));
-
     }
 
 
+    //solver asset to relative
+    range = stage->TraverseAll();
+    for (auto i = range.begin(); i != range.end(); i++)
+    {
+        VtValue attr_value;
+        UsdAttributeVector attrs = i->GetAttributes();
+        for (auto attr = attrs.begin(); attr != attrs.end(); attr++)
+        {
+            if (attr->GetTypeName().GetCPPTypeName() == "SdfAssetPath")
+            {
+                attr->Get(&attr_value);
+                if (attr_value.IsHolding<SdfAssetPath>())
+                {
+                    SdfAssetPath asset_path = SdfAssetPath(GetRelPath(attr_value.Get<SdfAssetPath>().GetResolvedPath(), usd_path));
+                    attr->Set(asset_path);
+                }
+            }           
+        }
+    }
+
+
+    //reset references
+    for (auto ref = reference_layers.begin(); ref != reference_layers.end(); ref++)
+    {
+        UsdPrim prim = stage->GetPrimAtPath(SdfPath(ref->first));
+        for (std::string& ss : ref->second)
+        {
+            prim.GetReferences().AddReference(GetRelPath(ss,usd_path));
+        }
+    }
+
+
+
+    //reset sublayer
     root_layer->SetSubLayerPaths(a);
 
-    root_layer->Save();
+    //save to dist
+    //root_layer->Save();
     /*std::string out;
     root_layer->ExportToString(&out);
     std::cout << out<<std::endl;*/
@@ -120,7 +147,7 @@ void ModifyUsdFilePath(const char* usd_path)
 }
 int main() {
     
-    const char* usd_path = "D:/test/test/layers2.usda";
+    const char* usd_path = "D:/test/test/grid.usd";
     ModifyUsdFilePath(usd_path);
 
 
@@ -139,7 +166,7 @@ int main() {
             std::cout << layers[k].GetIntroducingLayer()->GetRealPath();
         }
     }*/
-    std::cout << "hello world" << std::endl;
+    std::cout << "\nhello world" << std::endl;
     std::cin.get();
 
     return 0;

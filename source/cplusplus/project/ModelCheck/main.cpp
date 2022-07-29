@@ -39,8 +39,7 @@
 //}
 using namespace boost::filesystem;
 int main(int argc, const char** argv) {
-    ModifyUsdFilePath("D:/test/test/layers1.usda");
-    std::cout<< relative("D:/test/a.usd", "D:/test");
+    ModifyUsdFilePath("D:/test/test/grid3.usda");
     std::cin.get();
     return 0;
 }

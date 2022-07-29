@@ -175,6 +175,13 @@ bool CompositeLayer(int count, const char** infos,const char* path)
 //        std::cout << i << std::endl;
 //    }
 //}
+void showVector(const std::vector<std::string>& old_paths)
+{
+    for (auto i : old_paths)
+    {
+        std::cout << i << std::endl;
+    }
+}
 
 std::string GetRelPath(std::string path, const std::string& layer_path)
 {
@@ -185,6 +192,7 @@ std::string GetRelPath(std::string path, const std::string& layer_path)
 
     std::string solver_path = boost::filesystem::relative(new_path, boost::filesystem::path(new_path_old).parent_path()).string();
     if (solver_path.empty()) return path;
+    boost::replace_all(solver_path, "\\", "/");
 
     return solver_path;
 }
@@ -210,53 +218,108 @@ std::vector<std::string> RemoveSubLayer(SdfLayerHandle layer, const std::string 
     return GetRelSublayerPathVector(name_layers, layer_path);
 }
 
-std::vector<std::string> RemoveReferences(std::vector<UsdPrimCompositionQueryArc>& layers)
+void RemoveReferences(std::string primpath, std::vector<UsdPrimCompositionQueryArc>& layers, std::map<std::string, std::vector<std::string>>& reflayers)
 {
-    std::vector<std::string> reflayers;
-
     for (int k = 0; k < layers.size(); k++)
     {
-        reflayers.push_back(layers[k].GetIntroducingLayer()->GetRealPath());
-    }
+        auto l_a = layers[k].GetTargetNode().GetLayerStack()->GetLayers()[0];
 
-    return reflayers;
+
+        reflayers[primpath].push_back(l_a->GetRealPath());
+    }
 }
 
 
 void ModifyUsdFilePath(const char* usd_path)
 {
+    std::map<std::string, std::vector<std::string>> reference_layers;
 
     auto stage = UsdStage::Open(usd_path);
     //remove all sublayer
     auto root_layer = stage->GetRootLayer();
+    stage->SetEditTarget(root_layer);
 
 
     std::vector<std::string> a = RemoveSubLayer(root_layer, usd_path);
 
+    // remove references
     UsdPrimRange range = stage->TraverseAll();
     for (auto i = range.begin(); i != range.end(); i++)
     {
+
         if (!i->HasAuthoredReferences()) continue;
-        UsdPrim prim = *i;
         //RemoveReferences(prim);
 
         UsdPrimCompositionQuery layers_a = UsdPrimCompositionQuery::GetDirectReferences(*i);
         std::vector<UsdPrimCompositionQueryArc> layers = layers_a.GetCompositionArcs();
-
         if (layers.empty()) continue;
 
-        std::vector<std::string> b = RemoveReferences(layers);
-
+        RemoveReferences(i->GetPrimPath().GetAsString(), layers, reference_layers);
         i->GetReferences().ClearReferences();
-
-        for (size_t t = 0; t < b.size(); t++)
-            i->GetReferences().AddReference(GetRelPath(b[t], usd_path));
-
     }
 
 
+    //solver asset to relative
+    
+    range = stage->TraverseAll();
+    for (auto i = range.begin(); i != range.end(); i++)
+    {
+        VtValue attr_value;
+        std::map<std::string,std::string> need_modify_attr;
+        UsdAttributeVector attrs = i->GetAttributes();
+        for (auto attr = attrs.begin(); attr != attrs.end(); attr++)
+        {
+            std::string attr_type = attr->GetTypeName().GetCPPTypeName();
+            if (attr_type == "SdfAssetPath")
+            {
+                attr->Get(&attr_value);
+                if (attr_value.IsHolding<SdfAssetPath>())
+                {
+                    SdfAssetPath asset_path = SdfAssetPath(GetRelPath(attr_value.Get<SdfAssetPath>().GetResolvedPath(), usd_path));
+                    attr->Set(asset_path);
+                }
+            }
+            else if(attr_type == "std::string")
+            {
+                if (attr->GetName() == "inputs:filename")
+                {
+                    attr->Get(&attr_value);
+                    std::string asset_path =GetRelPath(attr_value.Get<std::string>(), usd_path);
+
+                    /*prim.RemoveProperty("inputs:filename")
+                    filename = prim.CreateAttribute("inputs:filename", pxr.Sdf.ValueTypeNames.Asset)
+                    filename.Set(old_file)*/
+
+                    //attr->Set(asset_path);
+                    need_modify_attr[attr->GetName().GetString()] = asset_path;
+                }
+            }
+        }
+        for (auto& ikk : need_modify_attr)
+        {
+            i->RemoveProperty(TfToken(ikk.first));
+            UsdAttribute new_attr=i->CreateAttribute(TfToken(ikk.first), SdfValueTypeNames->Asset);
+            new_attr.Set(SdfAssetPath(ikk.second));
+        }
+    }
+
+
+    //reset references
+    for (auto ref = reference_layers.begin(); ref != reference_layers.end(); ref++)
+    {
+        UsdPrim prim = stage->GetPrimAtPath(SdfPath(ref->first));
+        for (std::string& ss : ref->second)
+        {
+            prim.GetReferences().AddReference(GetRelPath(ss, usd_path));
+        }
+    }
+
+
+
+    //reset sublayer
     root_layer->SetSubLayerPaths(a);
 
+    //save to dist
     root_layer->Save();
     /*std::string out;
     root_layer->ExportToString(&out);

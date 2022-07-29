@@ -3,6 +3,7 @@
 // IMPORT STANDARD LIBRARIES
 #include <ctype.h>
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include <iostream>
 #include <string>
@@ -11,6 +12,8 @@
 // IMPORT THIRD-PARTY LIBRARIES
 #include <pxr/usd/usd/stage.h>
 #include <pxr/usd/sdf/layer.h>
+#include <pxr/usd/sdf/valueTypeName.h>
+#include <pxr/usd/sdf/types.h>
 #include <pxr/usd/usdGeom/xform.h>
 #include <pxr/usd/usdGeom/sphere.h>
 #include <pxr/usd/usdGeom/mesh.h>
@@ -19,6 +22,7 @@
 #include <pxr/usd/usd/prim.h>
 #include <pxr/usd/usd/primrange.h>
 #include <pxr/usd/usd/primCompositionQuery.h>
+#include <pxr/usd/pcp/layerStack.h>
 
 
 
