@@ -79,10 +79,9 @@ def usdExportCmd(outpath,stratframe,endframe,colorsets,uvsets,normals,shaders):
                     frameRange=[stratframe,endframe],
                     stripNamespaces=1,
                     renderableOnly=False,
-                    chaser=['alembic'],
-                    chaserArgs=[('alembic', 'attrprefix', 'asset_=asset_'),],
                     exportRoots=root_his   
                    )
                    
 def usdExportThread(data):
     usdExportCmd(data['path'],data['sf'],data['ef'],data['c'],data['uv'],data['n'],data['mat'])
+

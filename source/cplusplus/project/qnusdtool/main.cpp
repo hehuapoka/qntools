@@ -326,3 +326,19 @@ void ModifyUsdFilePath(const char* usd_path)
     std::cout << out<<std::endl;*/
 
 }
+void PostProcessAssetRender(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
+{
+    UsdPrim prim=stageA->GetPrimAtPath(SdfPath("/root/geo/render"));
+    UsdGeomXformApi
+}
+void PostProcessAsset(const char* usd_path)
+{
+    boost::filesystem::path render_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path("render.usd");
+    auto stageA = UsdStage::Open(usd_path);
+
+    auto stageB = UsdStage::Open(render_path.string());
+
+    PostProcessAssetRender(stageA, stageB);
+
+
+}
