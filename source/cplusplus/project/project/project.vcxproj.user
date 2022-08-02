@@ -1,7 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerEnvironment>PATH=%QNTOOLS%\libs\USD\bin;%QNTOOLS%\libs\USD\lib;%PATH%
+    <LocalDebuggerEnvironment>PATH=%QNTOOLS%\libs\USD\bin;%QNTOOLS%\libs\USD\lib;%QNTOOLS%\libs\ArnoldSDK\bin;%path%
+PYTHONPATH=%QNTOOLS%\libs\USD\lib\python;%QNTOOLS%\libs\ArnoldSDK\python;%PYTHONPATH%
+ARNOLD_PLUGIN_PATH=%QNTOOLS%\libs\ArnoldUSD\procedural
+PXR_PLUGINPATH_NAME=%QNTOOLS%\libs\ArnoldUSD\plugin;%QNTOOLS%\libs\ArnoldUSD\schema;%PXR_PLUGINPATH_NAME%
 $(LocalDebuggerEnvironment)</LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>

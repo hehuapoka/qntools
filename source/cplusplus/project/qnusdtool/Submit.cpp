@@ -1,32 +1,10 @@
-#include "modcheck.h"
-#include "stagetool.h"
+#include "Submit.h"
+#include "Utils.h"
+#include "Modcheck.h"
 
 using namespace pxr;
 using std::cout;
-
-bool AssetModHierarchyCheck(const char *a)
-{
-    auto stage = UsdStage::Open(std::string(a), UsdStage::LoadAll);
-    return IsOkayModHierarchy(stage);
-}
-bool AssetModTopologyCheck(const char* a,int minpoint,int maxpoint)
-{
-    auto stage = UsdStage::Open(std::string(a), UsdStage::LoadAll);
-    return IsOkayModTopology(stage,minpoint,maxpoint);
-}
-
-bool AssetModCheck(const char* a, int minpoint, int maxpoint)
-{
-    auto stage = UsdStage::Open(std::string(a), UsdStage::LoadAll);
-    return IsOkayModHierarchy(stage) && IsOkayModTopology(stage, minpoint, maxpoint);
-}
-
-bool AssetAnimCheck(const char* a)
-{
-    auto stage = UsdStage::Open(std::string(a), UsdStage::LoadAll);
-    return IsOkayAnimHierarchy(stage);
-}
-
+using std::endl;
 
 bool CreateAnimRef(int count,AnimInfo ** infos,const char* path)
 {
@@ -175,27 +153,9 @@ bool CompositeLayer(int count, const char** infos,const char* path)
 //        std::cout << i << std::endl;
 //    }
 //}
-void showVector(const std::vector<std::string>& old_paths)
-{
-    for (auto i : old_paths)
-    {
-        std::cout << i << std::endl;
-    }
-}
 
-std::string GetRelPath(std::string path, const std::string& layer_path)
-{
 
-    //boost::filesystem::path(layer_path).parent_path()
-    std::string new_path = static_cast<char>(tolower(path[0])) + path.substr(1, path.size() - 1);
-    std::string new_path_old = static_cast<char>(tolower(layer_path[0])) + layer_path.substr(1, layer_path.size() - 1);
 
-    std::string solver_path = boost::filesystem::relative(new_path, boost::filesystem::path(new_path_old).parent_path()).string();
-    if (solver_path.empty()) return path;
-    boost::replace_all(solver_path, "\\", "/");
-
-    return solver_path;
-}
 std::vector<std::string> GetRelSublayerPathVector(const std::vector<std::string>& old_paths, const std::string layer_path)
 {
     std::vector<std::string> new_paths;
@@ -324,21 +284,5 @@ void ModifyUsdFilePath(const char* usd_path)
     /*std::string out;
     root_layer->ExportToString(&out);
     std::cout << out<<std::endl;*/
-
-}
-void PostProcessAssetRender(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
-{
-    UsdPrim prim=stageA->GetPrimAtPath(SdfPath("/root/geo/render"));
-    UsdGeomXformApi
-}
-void PostProcessAsset(const char* usd_path)
-{
-    boost::filesystem::path render_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path("render.usd");
-    auto stageA = UsdStage::Open(usd_path);
-
-    auto stageB = UsdStage::Open(render_path.string());
-
-    PostProcessAssetRender(stageA, stageB);
-
 
 }

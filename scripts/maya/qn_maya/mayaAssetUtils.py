@@ -6,6 +6,7 @@ import maya.mel as mel
 #资产工具
 
 def usdAssetExport_render(dir:str):
+    cmds.select("|root")
     mel.eval(f'arnoldExportAss -f "{dir}" -s -boundingBox -mask 24 -lightLinks 0 -shadowLinks 0 -fullPath-cam perspShape;')                  
 
 def usdAssetExport(out_dir:str):

@@ -24,6 +24,7 @@
 #include <pxr/usd/usd/primCompositionQuery.h>
 #include <pxr/usd/pcp/layerStack.h>
 #include <pxr/usd/usdGeom/xformCommonAPI.h>
+#include <pxr/usd/usdGeom/xformable.h>
 
 
 

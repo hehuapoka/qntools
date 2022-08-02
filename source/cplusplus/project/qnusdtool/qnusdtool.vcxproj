@@ -145,12 +145,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Asset.cpp" />
+    <ClCompile Include="Submit.cpp" />
+    <ClCompile Include="Modelcheck.cpp" />
+    <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Asset.h" />
     <ClInclude Include="importlib.h" />
-    <ClInclude Include="modcheck.h" />
+    <ClInclude Include="Submit.h" />
+    <ClInclude Include="Modcheck.h" />
     <ClInclude Include="stagetool.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

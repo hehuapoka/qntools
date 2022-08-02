@@ -15,7 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Submit.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Modelcheck.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -23,10 +32,19 @@
     <ClInclude Include="importlib.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="modcheck.h">
+    <ClInclude Include="Modcheck.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stagetool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Submit.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

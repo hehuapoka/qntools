@@ -6,8 +6,6 @@
 
 #include <boost/filesystem.hpp>
 
-// IMPORT THIRD-PARTY LIBRARIES
-#include "../qnusdtool/modcheck.h"
 #include "../qnusdtool/stagetool.h"
 //
 //void TestA()
@@ -39,7 +37,7 @@
 //}
 using namespace boost::filesystem;
 int main(int argc, const char** argv) {
-    ModifyUsdFilePath("D:/test/test/grid3.usda");
+    PostProcessAsset("D:/test/test2/maya.usd");
     std::cin.get();
     return 0;
 }
