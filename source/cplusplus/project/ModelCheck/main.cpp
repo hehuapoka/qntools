@@ -37,7 +37,7 @@
 //}
 using namespace boost::filesystem;
 int main(int argc, const char** argv) {
-    PostProcessAsset("D:/test/test2/maya.usd");
+    PostProcessAsset("D:/test/test2/maya4.usda");
     std::cin.get();
     return 0;
 }
