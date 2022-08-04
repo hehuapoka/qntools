@@ -21,6 +21,9 @@
 #include <pxr/usd/usdGeom/primvar.h>
 #include <pxr/usd/usdGeom/primvarsAPI.h>
 #include <pxr/usd/usdGeom/subset.h>
+#include <pxr/usd/usdGeom/metrics.h>
+#include <pxr/usd/usd/modelAPI.h>
+#include <pxr/usd/kind/api.h>
 #include <pxr/usd/usd/attribute.h>
 #include <pxr/usd/usd/prim.h>
 #include <pxr/usd/usd/primrange.h>
@@ -28,6 +31,9 @@
 #include <pxr/usd/pcp/layerStack.h>
 #include <pxr/usd/usdGeom/xformCommonAPI.h>
 #include <pxr/usd/usdGeom/xformable.h>
+#include <pxr/usd/usdShade/api.h>
+#include <pxr/usd/usdShade/material.h>
+#include <pxr/usd/usdShade/shader.h>
 
 
 
