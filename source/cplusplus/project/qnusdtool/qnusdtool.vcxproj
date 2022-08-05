@@ -134,6 +134,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HDARNOLD_EXPORTS=1;USD_HAS_FULLSCREEN_SHADER=1;ARNOLD_DISABLE_HDMATERIALNETWORK2=1;_WIN32;_WIN64;NOMINMAX;CMAKE_INTDIR="Release";hdArnold_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>D:\hehua\dev\QNTools\libs\USD\include;D:\soft\Microsoft Visual Studio\Shared\Python37_64\include;D:\hehua\dev\QNTools\libs\USD\include\boost-1_70;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

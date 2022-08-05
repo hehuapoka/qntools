@@ -6,5 +6,5 @@
 #include <sstream>
 
 extern "C" {
-	_declspec(dllexport) void PostProcessAsset(const char* usd_path);
+	_declspec(dllexport) void PostProcessAsset(const char* usd_path, const char* asset_name);
 }

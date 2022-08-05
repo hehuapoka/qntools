@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 
 // IMPORT THIRD-PARTY LIBRARIES
@@ -34,6 +35,7 @@
 #include <pxr/usd/usdShade/api.h>
 #include <pxr/usd/usdShade/material.h>
 #include <pxr/usd/usdShade/shader.h>
+#include <pxr/usd/usdShade/materialBindingAPI.h>
 
 
 
