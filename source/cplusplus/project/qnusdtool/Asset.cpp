@@ -345,7 +345,7 @@ void ModifyMaterialAndShaderProps(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
     for (auto prim = prims.begin(); prim != prims.end(); prim++)
     {
         TfToken type_name = prim->GetTypeName();
-        if (type_name == "Material")
+        if (type_name == TfToken("Material"))
         {
             SdfPath mtl_path = SdfPath(TfToken("/mtl" + prim->GetPrimPath().GetString()));
             UsdPrim new_prim=stageB->GetPrimAtPath(mtl_path);
@@ -371,7 +371,7 @@ void ModifyMaterialAndShaderProps(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
                         
             }
         }
-        else if (type_name == "Shader")
+        else if (type_name == TfToken("Shader"))
         {
             SdfPath mtl_path = SdfPath(TfToken("/mtl" + prim->GetPrimPath().GetString()));
             UsdPrim new_prim = stageB->GetPrimAtPath(mtl_path);
@@ -390,6 +390,7 @@ void ModifyMaterialAndShaderProps(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
                 UsdAttribute old_attr=old_shader_input.GetAttr();
                 old_attr.Get(&value);
                 //new_shader.GetOutput(old_shader_input.GetBaseName()).GetAttr().Set(value);
+
                 if (old_shader_input.GetBaseName() == TfToken("filename"))
                 {
                     //这里有一个奇怪的bug
@@ -397,7 +398,7 @@ void ModifyMaterialAndShaderProps(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
                     boost::replace_first(moidify_udim, "<udim>", "<UDIM>");
                     new_prim.GetAttribute(old_attr.GetName()).Set(SdfAssetPath(moidify_udim));
                 }
-                else
+                else if(value.GetTypeName() != std::string("void"))
                 {
                     new_prim.GetAttribute(old_attr.GetName()).Set(value);
                 }
@@ -405,8 +406,21 @@ void ModifyMaterialAndShaderProps(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
                 if(!connect_source.empty())
                 {
                     SdfPath new_shader_connect_path = SdfPath(TfToken("/mtl" + connect_source[0].GetString()));
-                    //std::cout << old_shader_input.GetBaseName() << endl;
-                    new_shader.GetInput(old_shader_input.GetBaseName()).ConnectToSource(new_shader_connect_path);
+                    //std::cout << old_shader.GetPath() <<"/" << old_shader_input.GetBaseName() << endl;
+                    //std::cout << new_shader_connect_path << endl;
+                    if (UsdProperty target_property=stageB->GetObjectAtPath(new_shader_connect_path).As<UsdProperty>())
+                    {
+                        new_shader.GetInput(old_shader_input.GetBaseName()).ConnectToSource(new_shader_connect_path);
+                    }
+                    else
+                    {
+                        //UsdPrim target_prim = stageB->GetPrimAtPath(new_shader_connect_path);
+                        UsdShadeShader target_shader = UsdShadeShader::Get(stageB, new_shader_connect_path);
+                        UsdShadeOutput target_shader_output=target_shader.CreateOutput(TfToken("out"),old_shader_input.GetTypeName());
+                        new_shader.GetInput(old_shader_input.GetBaseName()).ConnectToSource(target_shader_output);
+                    }
+                    
+                    
                 }
             }
         }
@@ -437,20 +451,50 @@ void PostProcessAssetPayload(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
     root_prim_payload.GetReferences().AddReference("./geo.usdc");
     mtl_prim_payload.GetReferences().AddReference("./mtl.usdc");
     stageB->SetDefaultPrim(root_prim_payload);
+
+    //bind with mat
+    UsdPrimRange prims = stageB->TraverseAll();
+    for (auto prim = prims.begin(); prim != prims.end(); prim++)
+    {
+        TfToken type_name = prim->GetTypeName();
+        if (type_name == TfToken("Mesh") || type_name == TfToken("GeomSubset"))
+        {
+            std::vector<SdfPath> old_mat_paths;
+            UsdPrim old_prim = stageA->GetPrimAtPath(prim->GetPrimPath());
+            old_prim.GetRelationship(TfToken("material:binding")).GetTargets(&old_mat_paths);
+            
+            if (!old_mat_paths.empty())
+            {
+                SdfPath mat_path = SdfPath("/root/mtl" + old_mat_paths[0].GetString());
+                //cout << mat_path << endl;
+                UsdShadeMaterial mat=UsdShadeMaterial::Get(stageB, mat_path);
+                UsdShadeMaterialBindingAPI(*prim).Bind(mat);
+            }
+        }
+    }
 }
 
-void PostProcessAsset(const char* usd_path)
+void PostProcessAsset(const char* usd_path, const char* asset_name)
 {
     //step.0 make dir
     if (!boost::filesystem::exists("./asset"))
     {
-        boost::filesystem::create_directory("asset");
+        boost::filesystem::create_directory(asset_name);
     }
     //step.1 make geo.usdc
-    boost::filesystem::path geo_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path("asset/geo.usdc");
-    boost::filesystem::path mtl_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path("asset/mtl.usdc");
-    boost::filesystem::path payload_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path("asset/payload.usdc");
-    boost::filesystem::path asset_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path("asset/asset.usda");
+    std::stringstream out_geo_path;
+    std::stringstream out_mtl_path;
+    std::stringstream out_payload_path;
+    std::stringstream out_asset_path;
+
+    out_geo_path << "./" << asset_name << "/" << "geo" << ".usdc";
+    out_mtl_path << "./" << asset_name << "/" << "mtl" << ".usdc";
+    out_payload_path << "./" << asset_name << "/" << "payload" << ".usdc";
+    out_asset_path << "./" << asset_name << "/" << asset_name << ".usda";
+    boost::filesystem::path geo_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path(out_geo_path.str());
+    boost::filesystem::path mtl_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path(out_mtl_path.str());
+    boost::filesystem::path payload_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path(out_payload_path.str());
+    boost::filesystem::path asset_path = boost::filesystem::path(usd_path).parent_path() / boost::filesystem::path(out_asset_path.str());
 
     auto stageA = UsdStage::Open(usd_path);
 

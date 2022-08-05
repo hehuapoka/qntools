@@ -1,13 +1,5 @@
 #include "Utils.h"
 
-void showVector(const std::vector<std::string>& old_paths)
-{
-    for (auto i : old_paths)
-    {
-        std::cout << i << std::endl;
-    }
-}
-
 std::string GetRelPath(std::string path, const std::string& layer_path)
 {
 
