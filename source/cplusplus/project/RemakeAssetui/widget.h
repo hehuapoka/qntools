@@ -1,12 +1,15 @@
-#ifndef WIDGET_H
+﻿#ifndef WIDGET_H
 #define WIDGET_H
 
 #include <QWidget>
-
+#include <vector>
+#include <string>
+#include <qndll.h>
+#include "EnvUtils.h"
+#include "pricesstexture.h"
 QT_BEGIN_NAMESPACE
-namespace Ui { class Widget; }
+namespace Ui { class Widget;}
 QT_END_NAMESPACE
-
 class Widget : public QWidget
 {
     Q_OBJECT
@@ -15,7 +18,15 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+    QString usd_path;
+private:
+    void PrintQNTools();
+    void FinishedTexture(int num);
 private:
     Ui::Widget *ui;
+    EnvTools *env;
+    std::vector<std::string> images;
+
+
 };
 #endif // WIDGET_H

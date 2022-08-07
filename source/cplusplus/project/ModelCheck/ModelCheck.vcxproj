@@ -133,7 +133,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HDARNOLD_EXPORTS=1;USD_HAS_FULLSCREEN_SHADER=1;ARNOLD_DISABLE_HDMATERIALNETWORK2=1;_WIN32;_WIN64;NOMINMAX;CMAKE_INTDIR="Release";hdArnold_EXPORTS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\hehua\dev\QNTools\libs\USD\include;D:\soft\Microsoft Visual Studio\Shared\Python37_64\include;D:\hehua\dev\QNTools\libs\USD\include\boost-1_70;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%QNTOOLS%\libs\USD\include;%PYTHONROOT%\include;%QNTOOLS%\libs\USD\include\boost-1_70;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -141,8 +141,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\soft\Microsoft Visual Studio\Shared\Python37_64\libs;D:\hehua\dev\QNTools\libs\USD\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>usd_arch.lib;usd_tf.lib;usd_gf.lib;usd_js.lib;usd_vt.lib;usd_work.lib;usd_plug.lib;usd_ar.lib;usd_kind.lib;usd_sdf.lib;usd_pcp.lib;usd_usd.lib;usd_usdGeom.lib;usd_usdPhysics.lib;usd_usdShade.lib;usd_usdUtils.lib;D:\hehua\dev\QNTools\libs\USD\lib\boost_filesystem-vc142-mt-x64-1_70.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%PYTHONROOT%\libs;%QNTOOLS%\libs\USD\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>usd_arch.lib;usd_tf.lib;usd_gf.lib;usd_js.lib;usd_vt.lib;usd_work.lib;usd_plug.lib;usd_ar.lib;usd_kind.lib;usd_sdf.lib;usd_pcp.lib;usd_usd.lib;usd_usdGeom.lib;usd_usdPhysics.lib;usd_usdShade.lib;usd_usdUtils.lib;boost_filesystem-vc142-mt-x64-1_70.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

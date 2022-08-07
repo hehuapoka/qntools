@@ -1,6 +1,7 @@
 .vs/
 /libs/*
 !/libs/Python/
+/libs/Python/python3/
 
 !/libs/Maya/
 /libs/Maya/*
@@ -9,4 +10,4 @@
 obj/
 Release/
 Debug/
-build-RemakeAssetui-MyQt-Debug/
+build-*/

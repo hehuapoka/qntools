@@ -1,11 +1,14 @@
-#ifndef ENVUTILS_H
+﻿#ifndef ENVUTILS_H
 #define ENVUTILS_H
-#include <string>
-class EnvUtils
+#include <QString>
+class EnvTools
 {
 public:
-    EnvUtils();
-public:
-    const std::string QNTools;
-}
+    EnvTools();
+    QString GetQNtools();
+    QString GetIcon(const char* path);
+    bool FileExist(const char* path);
+private:
+    QString QNTools;
+};
 #endif // ENVUTILS_H

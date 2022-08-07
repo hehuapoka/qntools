@@ -1,9 +1,9 @@
-#include "widget.h"
+﻿#include "widget.h"
 //#include <fstream>
 //#include <sstream>
 //#include <string>
 #include <QApplication>
-
+#include <QtDebug>
 int main(int argc, char *argv[])
 {
 //    std::ifstream styleio("style.css");
@@ -16,6 +16,8 @@ int main(int argc, char *argv[])
 //    }
     QApplication a(argc, argv);
     Widget w;
+    if(argc > 1)
+        w.usd_path=argv[1];
     //w.setStyleSheet(style_str.c_str());
     w.show();
     return a.exec();

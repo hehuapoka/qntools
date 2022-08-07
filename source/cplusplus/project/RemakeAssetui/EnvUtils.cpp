@@ -1,17 +1,32 @@
+﻿#ifndef BOOST_ALL_DYN_LINK
+#define BOOST_ALL_DYN_LINK
+#endif
+
 #include "EnvUtils.h"
-#include <cstdlib>
-EnvUtils::EnvUtils()
-{
-   char libvar[512];
-   size_t requiredSize;
+#include <QtCore>
+#include <QtDebug>
+#include <string>
+#include <boost/filesystem.hpp>
 
-   getenv_s( &requiredSize, libvar, 0, "QNTools");
-   if (requiredSize != 0)
-   {
-      printf("LIB doesn't exist!\n");
-   }
+EnvTools::EnvTools()
+{
+    QNTools = qEnvironmentVariable("QNTools");
 }
-const char* GetIcon(const char* Icon)
-{
 
+QString EnvTools::GetQNtools()
+{
+    return QNTools;
+}
+QString EnvTools::GetIcon(const char* path)
+{
+    boost::filesystem::path pa = boost::filesystem::path(QNTools.toStdString()) /"icon"/ path;
+    return pa.string().c_str();
+}
+
+
+bool EnvTools::FileExist(const char* path)
+{
+    if(boost::filesystem::exists(path))
+        return true;
+    return false;
 }

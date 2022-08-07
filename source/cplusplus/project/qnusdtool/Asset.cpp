@@ -524,3 +524,41 @@ void PostProcessAsset(const char* usd_path, const char* asset_name)
     stage_asset->SetDefaultPrim(root_prim_asset);
     stage_asset->GetRootLayer()->Save(true);
 }
+
+void GetAssetTexture(const char* usd_path, std::vector<std::string>& images)
+{
+    VtValue value;
+    //std::vector<std::string> images;
+
+    auto stage=UsdStage::Open(usd_path);
+    UsdPrimRange prims=stage->TraverseAll();
+    for (auto prim = prims.begin(); prim != prims.end(); prim++)
+    {
+        if (prim->GetTypeName() == "Shader")
+        {
+            UsdShadeShader shader = UsdShadeShader(*prim);
+            if (shader.GetInput(TfToken("filename")).Get(&value))
+            {
+                std::string image_path = value.Get<std::string>();
+                auto a=boost::find_first(image_path, "<udim>");
+                //std::cout << value << endl;
+                if (!a.empty())
+                {
+                    for (uint32_t udim = 1001; udim <= 1100; udim++)
+                    {
+                        std::string udim_image_path = image_path;
+                        boost::replace_first(udim_image_path, "<udim>", std::to_string(udim));
+                        if (boost::filesystem::exists(udim_image_path))
+                        {
+                            images.push_back(udim_image_path);
+                        }
+                    }
+                }
+                else
+                {
+                    images.push_back(image_path);
+                }
+            }
+        }
+    }
+}

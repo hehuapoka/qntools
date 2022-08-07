@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+﻿cmake_minimum_required(VERSION 3.5)
 
 project(RemakeAssetui VERSION 0.1 LANGUAGES CXX)
 
@@ -10,6 +10,13 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(QNTOOLS $ENV{QNTools})
+set(USD_ROOT ${QNTOOLS}/libs/USD)
+include_directories(${USD_ROOT}/include/boost-1_70)
+include_directories(${QNTOOLS}/include)
+#SET(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} E:/Work/dev/qntools/libs/USD/include/boost-1_70)
+#SET(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} E:/Work/dev/qntools/libs/USD/lib)
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check https://doc.qt.io/qt/deployment-android.html for more information.
@@ -24,6 +31,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
+
+
+
+#boost
+#FIND_PACKAGE(Boost)
+#IF (Boost_FOUND)
+#    INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
+#    ADD_DEFINITIONS( "-DHAS_BOOST" )
+#ENDIF()
+
+
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
@@ -34,6 +53,8 @@ set(PROJECT_SOURCES
         EnvUtils.cpp
         EnvUtils.h
         widget.ui
+        pricesstexture.cpp
+        pricesstexture.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -53,7 +74,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(RemakeAssetui PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(RemakeAssetui PRIVATE Qt${QT_VERSION_MAJOR}::Widgets PUBLIC ${USD_ROOT}/lib/boost_filesystem-vc142-mt-x64-1_70.lib PUBLIC ${QNTOOLS}/lib/qndll.lib)
 
 set_target_properties(RemakeAssetui PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
