@@ -44,6 +44,14 @@ QString EnvTools::GetTxOutPath(const std::string& src, const std::string& dest ,
     return pa.c_str();
 }
 
+QString EnvTools::GetTexInPath(const std::string& src)
+{
+    std::string pa = src;
+
+    boost::replace_all(pa, "\\", "/");
+    return pa.c_str();
+}
+
 
 
 bool EnvTools::FileExist(const char* path)

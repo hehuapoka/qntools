@@ -8,6 +8,8 @@ signals:
 	void tex_finished(int min, int max);
 signals:
 	void task_process();
+signals:
+	void task_exit(std::string);
 
 public:
 	explicit mywork(QObject *parent=0);

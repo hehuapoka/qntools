@@ -23,4 +23,5 @@ private:
 	void clickButton();
 	void resetProcessBar(int min, int max);
 	void updataProcessBar();
+	void errorMessage(std::string message);
 };

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>396</width>
-    <height>195</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,13 +25,13 @@
   <property name="maximumSize">
    <size>
     <width>400</width>
-    <height>200</height>
+    <height>300</height>
    </size>
   </property>
   <property name="sizeIncrement">
    <size>
     <width>400</width>
-    <height>200</height>
+    <height>300</height>
    </size>
   </property>
   <property name="baseSize">
@@ -132,6 +132,36 @@
      <property name="flat">
       <bool>false</bool>
      </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="styleSheet">
+      <string notr="true">margin:-5;</string>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>386</width>
+        <height>116</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QTextBrowser" name="textBrowser">
+         <property name="styleSheet">
+          <string notr="true">border:0;
+color: rgb(255, 37, 37);</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>

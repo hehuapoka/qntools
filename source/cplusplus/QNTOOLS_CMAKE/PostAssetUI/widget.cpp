@@ -10,6 +10,7 @@ widget::widget(QWidget *parent):QWidget(parent), ui(new Ui::Widget)
 	usd_path = "D:/test/test2/maya3.usda";
 
 	ui->setupUi(this);
+	ui->progressBar->setAlignment(Qt::AlignCenter);
 	this->setWindowTitle(tr("资产打包"));
 
 	ui->progressBar->setMinimum(0);
@@ -23,6 +24,7 @@ widget::widget(QWidget *parent):QWidget(parent), ui(new Ui::Widget)
 
 	//QObject::connect(task, &mywork::tex_finished, this, &widget::resetProcessBar);
 	QObject::connect(task, &mywork::task_process, this, &widget::updataProcessBar);
+	QObject::connect(task, &mywork::task_exit, this, &widget::errorMessage);
 	QObject::connect(task, &mywork::finished, this, [=]() {ui->pushButton->setEnabled(true); });
 
 
@@ -55,4 +57,9 @@ void widget::updataProcessBar()
 {
 	ui->progressBar->setValue(ui->progressBar->value() + 1);
 	//qDebug() << "a";
+}
+
+void widget::errorMessage(std::string message)
+{
+	ui->textBrowser->setText(message.c_str());
 }

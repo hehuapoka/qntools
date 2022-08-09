@@ -9,6 +9,7 @@ public:
     static QString GetMakeTx();
     static QString GetACESConfig();
     static QString GetTxOutPath(const std::string& src,const std::string& dest, const std::string asset_name);
+    static QString GetTexInPath(const std::string& src);
     static bool FileExist(const char* path);
 
 };
