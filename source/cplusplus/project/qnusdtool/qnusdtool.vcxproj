@@ -131,7 +131,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;HDARNOLD_EXPORTS=1;USD_HAS_FULLSCREEN_SHADER=1;ARNOLD_DISABLE_HDMATERIALNETWORK2=1;_WIN32;_WIN64;NOMINMAX;CMAKE_INTDIR="Release";hdArnold_EXPORTS</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;USD_HAS_FULLSCREEN_SHADER=1;NOMINMAX</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>%QNTOOLS%\libs\USD\include;%PYTHONROOT%\include;%QNTOOLS%\libs\USD\include\boost-1_70;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>

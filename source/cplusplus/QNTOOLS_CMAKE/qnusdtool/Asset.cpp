@@ -1,4 +1,4 @@
-#include "modcheck.h"
+#include "modelcheck.h"
 #include "Asset.h"
 #include "Utils.h"
 
@@ -525,10 +525,11 @@ void PostProcessAsset(const char* usd_path, const char* asset_name)
     stage_asset->GetRootLayer()->Save(true);
 }
 
-void GetAssetTexture(const char* usd_path, std::vector<std::string>& images)
+void GetAssetTexture(const char* usd_path, std::map<std::string,std::string>& images)
 {
     VtValue value;
-    //std::vector<std::string> images;
+    VtValue color;
+    //std::map<std::string,std::string> images;
 
     auto stage=UsdStage::Open(usd_path);
     UsdPrimRange prims=stage->TraverseAll();
@@ -537,9 +538,10 @@ void GetAssetTexture(const char* usd_path, std::vector<std::string>& images)
         if (prim->GetTypeName() == "Shader")
         {
             UsdShadeShader shader = UsdShadeShader(*prim);
-            if (shader.GetInput(TfToken("filename")).Get(&value))
+            if (shader.GetInput(TfToken("filename")).Get(&value) && shader.GetInput(TfToken("color_space")).Get(&color))
             {
                 std::string image_path = value.Get<std::string>();
+                std::string color_space = color.Get<std::string>();
                 auto a=boost::find_first(image_path, "<udim>");
                 //std::cout << value << endl;
                 if (!a.empty())
@@ -550,19 +552,77 @@ void GetAssetTexture(const char* usd_path, std::vector<std::string>& images)
                         boost::replace_first(udim_image_path, "<udim>", std::to_string(udim));
                         if (boost::filesystem::exists(udim_image_path))
                         {
-                            images.push_back(udim_image_path);
+                            if (images.find(udim_image_path) == images.end())
+                            {
+                                images[udim_image_path] = color_space == "" ? "ACES - ACEScg" : color_space;
+                            }
                         }
                     }
                 }
                 else
                 {
-                    images.push_back(image_path);
+                    if (images.find(image_path) == images.end())
+                    {
+                        images[image_path]=color_space == "" ? "ACES - ACEScg" : color_space;;
+                    }
                 }
             }
         }
     }
 }
-//void GetAssetTexture(const char* usd_path, std::map<std::string, std::string>& images)
+
+//void GetAssetTexture(const char* usd_path, std::vector<std::string>& images, std::vector<std::string>& colorspace)
+//{
+//    VtValue value;
+//    VtValue color;
+//    //std::map<std::string,std::string> images;
+//
+//    auto stage = UsdStage::Open(usd_path);
+//    UsdPrimRange prims = stage->TraverseAll();
+//    for (auto prim = prims.begin(); prim != prims.end(); prim++)
+//    {
+//        if (prim->GetTypeName() == "Shader")
+//        {
+//            UsdShadeShader shader = UsdShadeShader(*prim);
+//            if (shader.GetInput(TfToken("filename")).Get(&value) && shader.GetInput(TfToken("color_space")).Get(&color))
+//            {
+//                std::string image_path = value.Get<std::string>();
+//                std::string color_space = color.Get<std::string>();
+//                auto a = boost::find_first(image_path, "<udim>");
+//                //std::cout << value << endl;
+//                if (!a.empty())
+//                {
+//                    for (uint32_t udim = 1001; udim <= 1100; udim++)
+//                    {
+//                        std::string udim_image_path = image_path;
+//                        boost::replace_first(udim_image_path, "<udim>", std::to_string(udim));
+//                        if (boost::filesystem::exists(udim_image_path))
+//                        {
+//                            if (!InVector<std::string>(images, udim_image_path))
+//                            {
+//                                images.push_back(udim_image_path);
+//                                colorspace.push_back(color_space == "" ? color_space : "ACES - ACEScg");
+//                            }
+//                        }
+//                    }
+//                }
+//                else
+//                {
+//                    if (!InVector<std::string>(images, image_path))
+//                    {
+//                        images.push_back(image_path);
+//                        colorspace.push_back(color_space == "" ? color_space : "ACES - ACEScg");
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
+
+
+
+
+//void GetAssetTexture(const char* usd_path, std::vector<std::string>& images)
 //{
 //    VtValue value;
 //    //std::vector<std::string> images;

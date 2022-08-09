@@ -15,12 +15,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="qndll.cpp">
+    <ClCompile Include="assetprocess.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="qndll.h">
+    <ClInclude Include="assetprocess.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

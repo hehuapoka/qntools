@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PostProcessAsset": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "PATH": "%QNTOOLS%\\libs\\USD\\bin;%QNTOOLS%\\libs\\USD\\lib;%QNTOOLS%\\libs\\ArnoldSDK\\bin;%QNTOOLS%\\bin;%PATH%"
+      }
+    }
+  }
+}
