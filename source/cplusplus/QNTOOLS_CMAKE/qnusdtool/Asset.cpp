@@ -339,7 +339,7 @@ void CreateMaterialAndShader(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
         }
     }
 }
-void ModifyMaterialAndShaderProps(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
+void ModifyMaterialAndShaderProps(UsdStageRefPtr stageA, UsdStageRefPtr stageB,bool pack=true)
 {
     UsdPrimRange prims=stageA->Traverse();
     for (auto prim = prims.begin(); prim != prims.end(); prim++)
@@ -396,10 +396,15 @@ void ModifyMaterialAndShaderProps(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
                     //这里有一个奇怪的bug
                     std::string moidify_udim = value.Get<std::string>();
                     boost::replace_first(moidify_udim, "<udim>", "<UDIM>");
+                    if (pack)
+                    {
+                        moidify_udim=std::string("./Textures/")+boost::filesystem::path(moidify_udim).filename().string();
+                    }
                     new_prim.GetAttribute(old_attr.GetName()).Set(SdfAssetPath(moidify_udim));
                 }
                 else if(value.GetTypeName() != std::string("void"))
                 {
+
                     new_prim.GetAttribute(old_attr.GetName()).Set(value);
                 }
 
@@ -426,7 +431,7 @@ void ModifyMaterialAndShaderProps(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
         }
     }
 }
-bool PostProcessAssetMtl(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
+void PostProcessAssetMtl(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
 {
     //init
     SdfPath mtl_path = SdfPath("/mtl");
@@ -477,7 +482,7 @@ void PostProcessAssetPayload(UsdStageRefPtr stageA, UsdStageRefPtr stageB)
 void PostProcessAsset(const char* usd_path, const char* asset_name)
 {
     //step.0 make dir
-    if (!boost::filesystem::exists("./asset"))
+    if (!boost::filesystem::exists(std::string("./")+asset_name))
     {
         boost::filesystem::create_directory(asset_name);
     }

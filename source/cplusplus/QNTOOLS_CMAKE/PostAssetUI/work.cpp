@@ -1,10 +1,14 @@
+#pragma execution_character_set("utf-8")
 #include "work.h"
 #include "EnvUtils.h"
 #include <qdebug.h>
+#include <qthreadpool.h>
 #include <qprocess.h>
 #include "assetprocess.hpp"
-mywork::mywork(QObject* parent):QThread(parent)
+#include "singletask.h"
+mywork::mywork(QObject* parent):QThread(parent), _main_ptr(parent)
 {
+	
 }
 
 mywork::~mywork()
@@ -14,27 +18,35 @@ mywork::~mywork()
 void mywork::run()
 {
 	std::map<std::string,std::string> images;
-	GetAssetTexture_DLL(usd_path.toStdString().c_str(), images);
-	//bool ok = GetAssetTexture_DLL(usd_path.toStdString().c_str(), images);
-	emit tex_finished(0, images.size() + 1);
-	for (auto& a : images)
+	if (convert_tx)
 	{
-		QStringList parms;
-		parms  << EnvTools::GetTexInPath(a.first) << "-u" << "-v" << "--compression" << "DWAA:100"
-			<< "--colorconfig" << EnvTools::GetACESConfig()
-			<< "--colorconvert" << a.second.c_str() << "ACES - ACEScg"
-			<< "--oiio"
-			<< "-o" << EnvTools::GetTxOutPath(usd_path.toStdString().c_str(), a.first, asset_name.toStdString());
-		QProcess p;
-		p.start(EnvTools::GetMakeTx(), parms);
-		p.waitForFinished();
-		if (p.exitStatus() == QProcess::ExitStatus::CrashExit)
+		GetAssetTexture_DLL(usd_path.toStdString().c_str(), images);
+		//bool ok = GetAssetTexture_DLL(usd_path.toStdString().c_str(), images);
+		emit tex_finished(0, images.size() + 2);
+		EnvTools::CreateDirs(usd_path.toStdString(), asset_name.toStdString());
+		for (auto& a : images)
 		{
-			emit task_exit(a.first + "\n");
+			QStringList parms;
+			parms << EnvTools::GetTexInPath(a.first) << "-u" << "-v" << "--compression" << "DWAA:100"
+				<< "--colorconfig" << EnvTools::GetACESConfig()
+				<< "--colorconvert" << a.second.c_str() << "ACES - ACEScg"
+				<< "--oiio"
+				<< "-o" << EnvTools::GetTxOutPath(usd_path.toStdString().c_str(), a.first, asset_name.toStdString());
+			/*QProcess p;
+			p.start(EnvTools::GetMakeTx(), parms);*/
+			//p.waitForFinished();
+			//emit task_process();
+			SingleTask* s_task = new SingleTask(_main_ptr, parms);
+			QThreadPool::globalInstance()->start(s_task);
 		}
-		//qDebug() << parms;
-		//qDebug() << parms;
-		//QThread::sleep(0.1);
-		emit task_process();
+		QThreadPool::globalInstance()->setMaxThreadCount(6);
+		QThreadPool::globalInstance()->waitForDone();
 	}
+	else
+	{
+		emit tex_finished(0, 1);
+	}
+
+	int ok = PostProcessAsset_DLL(usd_path.toStdString().c_str(), asset_name.toStdString().c_str());
+	emit task_process();
 }

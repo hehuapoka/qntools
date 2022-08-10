@@ -38,7 +38,7 @@ QString EnvTools::GetMakeTx()
 
 QString EnvTools::GetTxOutPath(const std::string& src, const std::string& dest , const std::string asset_name)
 {
-    std::string pa = (boost::filesystem::path(src).parent_path() / asset_name / "Texture" / boost::filesystem::path(dest).filename().replace_extension("tx")).string();
+    std::string pa = (boost::filesystem::path(src).parent_path() / asset_name / "Textures" / boost::filesystem::path(dest).filename().replace_extension("tx")).string();
 
     boost::replace_all(pa, "\\", "/");
     return pa.c_str();
@@ -59,4 +59,12 @@ bool EnvTools::FileExist(const char* path)
     if(boost::filesystem::exists(path))
         return true;
     return false;
+}
+
+void EnvTools::CreateDirs(const std::string& usd_path, const std::string& asset_name)
+{
+    boost::filesystem::path a = boost::filesystem::path(usd_path).parent_path() / asset_name / "Textures";
+    if (!boost::filesystem::exists(a))
+        
+        boost::filesystem::create_directories(a);
 }

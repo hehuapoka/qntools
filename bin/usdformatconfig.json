@@ -70,6 +70,33 @@
                                     ]
                                   }
                                 ]
+                              },
+                              {
+                                "Name": "资产打包",
+                                "Values": [
+                                  {
+                                    "Name": "FriendlyAppName",
+                                    "Value": "PackUsdAsset"
+                                  },
+                                  {
+                                    "Name": "Icon",
+                                    "Value": "usd.ico"
+                                  }
+                                ],
+                                "Childrens": [
+                                  {
+                                    "Name": "command",
+                                    "Values": [
+                                      {
+                                        "Name": "Default",
+                                        "Value": "PostAssetUI.exe"
+                                      }
+                                    ],
+                                    "Childrens": [
+
+                                    ]
+                                  }
+                                ]
                               }
                                         ]
                         }

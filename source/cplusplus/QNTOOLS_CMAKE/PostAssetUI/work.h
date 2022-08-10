@@ -1,5 +1,6 @@
 #pragma once
 #include <qthread.h>
+#include <qstring.h>
 
 class mywork :public QThread
 {
@@ -8,8 +9,6 @@ signals:
 	void tex_finished(int min, int max);
 signals:
 	void task_process();
-signals:
-	void task_exit(std::string);
 
 public:
 	explicit mywork(QObject *parent=0);
@@ -17,6 +16,9 @@ public:
 
 	QString usd_path;
 	QString asset_name;
+	bool convert_tx = true;
+private:
+	QObject* _main_ptr;
 
 protected:
 	void run() override;

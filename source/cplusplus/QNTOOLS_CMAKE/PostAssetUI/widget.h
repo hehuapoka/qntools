@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QWidget>
+#include <qstring.h>
 #include "work.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -11,17 +12,20 @@ class widget : public QWidget
 	Q_OBJECT
 
 public:
-	explicit widget(QWidget *parent = nullptr);
+	explicit widget(QWidget *parent = nullptr,QString path = "");
 	~widget();
+	QString usd_path;
 
 private:
 	Ui::Widget* ui;
 	mywork* task;
-	QString usd_path;
 
-private:
+public slots:
 	void clickButton();
+public slots:
 	void resetProcessBar(int min, int max);
+public slots:
 	void updataProcessBar();
-	void errorMessage(std::string message);
+public slots:
+	void changeUsdPath(QString value);
 };

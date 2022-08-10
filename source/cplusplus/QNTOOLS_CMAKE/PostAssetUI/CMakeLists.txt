@@ -8,6 +8,7 @@ cmake_minimum_required (VERSION 3.8)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -27,28 +28,43 @@ endif()
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt5 COMPONENTS Core REQUIRED)
-find_package(Qt5 COMPONENTS Gui REQUIRED)
+#find_package(Qt5 COMPONENTS Gui REQUIRED)
 
 
 include_directories(CMAKE_CURRENT_SOURCE_DIR)
 
 include_directories(${USD_ROOT}/include/boost-1_70)
 include_directories(${USD_ROOT}/include)
+#include_directories(${QNTOOLS}/libs/Qt/include/QtWidgets)
+#include_directories(${QNTOOLS}/libs/Qt/include/QtCore)
 
 
-add_executable(PostAssetUI
-    main.cpp
-    widget.cpp
-    widget.h
-    widget.ui
-    "assetprocess.hpp" "work.h" "work.cpp" "EnvUtils.cpp" "EnvUtils.h")
+add_executable(PostAssetUI WIN32 
+    widget.rc
+    singletask.h
+    main.cpp 
+    widget.cpp 
+    widget.h 
+    widget.ui 
+    assetprocess.hpp
+    work.h 
+    work.cpp
+    EnvUtils.cpp
+    EnvUtils.h
+    singletask.cpp
+)
 
 
 target_link_libraries(PostAssetUI Qt5::Widgets)
 target_link_libraries(PostAssetUI Qt5::Core)
-target_link_libraries(PostAssetUI Qt5::Gui)
+#target_link_libraries(PostAssetUI Qt5::Gui)
 target_link_libraries(PostAssetUI ${USD_ROOT}/lib/boost_filesystem-vc142-mt-x64-1_70.lib)
 
 add_dependencies(PostAssetUI qnusdtool)
+
+
+if(QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(RemakeAssetui)
+endif()
 
 # TODO: 如有需要，请添加测试并安装目标。
