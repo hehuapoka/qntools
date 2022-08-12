@@ -8,7 +8,7 @@
 #include <qdebug.h>
 #include <qmessagebox.h>
 #include <boost/filesystem.hpp>
-static QStringList AssetType{ "Element","Chars","Props","Sets" };
+static QStringList AssetType{ "Elements","Chars","Props","Sets" };
 
 widget::widget(QWidget *parent, QString path):QWidget(parent), ui(new Ui::Widget),usd_path(path)
 {
@@ -29,7 +29,7 @@ widget::widget(QWidget *parent, QString path):QWidget(parent), ui(new Ui::Widget
 	QObject::connect(ui->lineEdit_2, &QLineEdit::textChanged, this, &widget::changeUsdPath);
 	QObject::connect(ui->pushButton, &QPushButton::clicked, this, &widget::clickButton);
 
-	//QObject::connect(task, &mywork::tex_finished, this, &widget::resetProcessBar);
+	QObject::connect(task, &mywork::tex_finished, this, &widget::resetProcessBar);
 	QObject::connect(task, &mywork::task_process, this, &widget::updataProcessBar);
 	QObject::connect(task, &mywork::finished, this, [=]() {ui->pushButton->setEnabled(true); });
 

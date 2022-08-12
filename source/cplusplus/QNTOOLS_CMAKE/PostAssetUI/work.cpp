@@ -22,7 +22,7 @@ void mywork::run()
 	{
 		GetAssetTexture_DLL(usd_path.toStdString().c_str(), images);
 		//bool ok = GetAssetTexture_DLL(usd_path.toStdString().c_str(), images);
-		emit tex_finished(0, images.size() + 2);
+		emit tex_finished(0, images.size());
 		EnvTools::CreateDirs(usd_path.toStdString(), asset_name.toStdString());
 		for (auto& a : images)
 		{

@@ -23,7 +23,8 @@ def run():
         pm.menuItem( divider=True )
 
         pm.menuItem(label=u'资产工具',subMenu=True)
-        pm.menuItem(label=u'创建层级模板',command="from qn.mayaUtils import createModelHierarchy\ncreateModelHierarchy()")
+        pm.menuItem(label=u'创建层级模板',command="from qn_maya.mayaUtils import createModelHierarchy\ncreateModelHierarchy()")
+        pm.menuItem(label=u'导出材质模型',command="import usdtexexport\nusdtexexport.run()")
 
         pm.setParent( '..', menu=True )
         pm.menuItem(label=u'动画工具',subMenu=True)

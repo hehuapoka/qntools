@@ -21,5 +21,10 @@ include_directories(${PYTHONROOT}/include)
 include_directories(../qnusdtool)
 
 add_executable(test main.cpp)
-target_link_libraries(test qnusdtool)
+target_link_libraries(test ${USD_ROOT}/lib/boost_filesystem-vc142-mt-x64-1_70.lib)
+target_link_libraries(test ${USD_ROOT}/lib/boost_python37-vc142-mt-x64-1_70.lib)
+target_link_libraries(test ${USD_ROOT}/lib/boost_python37-vc142-mt-x64-1_70.lib)
+target_link_libraries(test ${PYTHONROOT}/libs/python37.lib)
+
+#target_link_libraries(test qnusdtool)
 #add_dependencies(test qnusdtool)

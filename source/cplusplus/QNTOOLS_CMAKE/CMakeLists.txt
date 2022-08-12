@@ -9,7 +9,7 @@ set(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}")
 
 # 包含子项目。
-add_subdirectory ("QNTOOLS_CMAKE")
+add_subdirectory ("UpDataAssetUI")
 add_subdirectory ("qnusdtool")
 add_subdirectory ("PostAssetUI")
 add_subdirectory ("test")
