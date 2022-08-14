@@ -153,43 +153,6 @@ bool CompositeLayer(int count, const char** infos,const char* path)
 //        std::cout << i << std::endl;
 //    }
 //}
-
-
-
-std::vector<std::string> GetRelSublayerPathVector(const std::vector<std::string>& old_paths, const std::string layer_path)
-{
-    std::vector<std::string> new_paths;
-    for (const std::string& p : old_paths)
-    {
-        new_paths.push_back(GetRelPath(p, layer_path));
-    }
-    return new_paths;
-}
-
-std::vector<std::string> RemoveSubLayer(SdfLayerHandle layer, const std::string layer_path)
-{
-    std::vector<std::string> name_layers = layer->GetSubLayerPaths();
-    size_t num_sublayer = layer->GetNumSubLayerPaths();
-    for (int i = 0; i < num_sublayer; i++)
-    {
-        layer->RemoveSubLayerPath(i);
-    }
-
-    return GetRelSublayerPathVector(name_layers, layer_path);
-}
-
-void RemoveReferences(std::string primpath, std::vector<UsdPrimCompositionQueryArc>& layers, std::map<std::string, std::vector<std::string>>& reflayers)
-{
-    for (int k = 0; k < layers.size(); k++)
-    {
-        auto l_a = layers[k].GetTargetNode().GetLayerStack()->GetLayers()[0];
-
-
-        reflayers[primpath].push_back(l_a->GetRealPath());
-    }
-}
-
-
 void ModifyUsdFilePath(const char* usd_path)
 {
     std::map<std::string, std::vector<std::string>> reference_layers;

@@ -46,9 +46,10 @@ add_library(qnusdtool SHARED
     "Submit.h"
     "Utils.cpp"
     "Utils.h"
-    )
+     "Shot.cpp" "Shot.h")
 
-target_link_libraries(qnusdtool ${USD_ROOT}/lib/boost_filesystem-vc142-mt-x64-1_70.lib
+target_link_libraries(qnusdtool ${USD_ROOT}/lib/boost_filesystem-vc142-mt-x64-1_70.lib 
+${USD_ROOT}/lib/boost_regex-vc142-mt-x64-1_70.lib
 ${USD_ROOT}/lib/boost_python37-vc142-mt-x64-1_70.lib
 ${USD_ROOT}/lib/usd_arch.lib
 ${USD_ROOT}/lib/usd_tf.lib

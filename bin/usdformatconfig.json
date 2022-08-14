@@ -2,6 +2,7 @@
     {
         "Name":"usdformat",
         "Values":[
+                    {"Name":"Icon","Value":"usd.ico"}
                 ],
         "Childrens":[
                         {
@@ -17,87 +18,104 @@
                             "Values":[
                                     ],
                             "Childrens":[
-                              {
-                                "Name": "open",
-                                "Values": [
-                                  {
-                                    "Name": "FriendlyAppName",
-                                    "Value": "UsdDisplay"
-                                  },
-                                  {
-                                    "Name": "Icon",
-                                    "Value": "usd.ico"
-                                  }
-                                ],
-                                "Childrens": [
-                                  {
-                                    "Name": "command",
-                                    "Values": [
-                                      {
-                                        "Name": "Default",
-                                        "Value": "usddisplay.bat"
-                                      }
-                                    ],
-                                    "Childrens": [
-
-                                    ]
-                                  }
-                                ]
-                              },
-                              {
-                                "Name": "open_by_arnold",
-                                "Values": [
-                                  {
-                                    "Name": "FriendlyAppName",
-                                    "Value": "UsdDisplayArnold"
-                                  },
-                                  {
-                                    "Name": "Icon",
-                                    "Value": "usd.ico"
-                                  }
-                                ],
-                                "Childrens": [
-                                  {
-                                    "Name": "command",
-                                    "Values": [
-                                      {
-                                        "Name": "Default",
-                                        "Value": "usddisplayarnold.bat"
-                                      }
-                                    ],
-                                    "Childrens": [
-
-                                    ]
-                                  }
-                                ]
-                              },
-                              {
-                                "Name": "资产打包",
-                                "Values": [
-                                  {
-                                    "Name": "FriendlyAppName",
-                                    "Value": "PackUsdAsset"
-                                  },
-                                  {
-                                    "Name": "Icon",
-                                    "Value": "usd.ico"
-                                  }
-                                ],
-                                "Childrens": [
-                                  {
-                                    "Name": "command",
-                                    "Values": [
-                                      {
-                                        "Name": "Default",
-                                        "Value": "PostAssetUI.exe"
-                                      }
-                                    ],
-                                    "Childrens": [
-
-                                    ]
-                                  }
-                                ]
-                              }
+                                            {
+                                              "Name":"USD工具",
+                                              "Values":[
+                                                          {"Name":"Icon","Value":"usd.ico"},
+                                                          {"Name":"SubCommands","Value":null}
+                                                      ],
+                                              "Childrens":[
+                                                            {
+                                                              "Name":"shell",
+                                                              "Values":[],
+                                                              "Childrens":
+                                                              [
+                                                                {
+                                                                  "Name": "使用USDView打开",
+                                                                  "Values": [
+                                                                    {
+                                                                      "Name": "FriendlyAppName",
+                                                                      "Value": "UsdDisplay"
+                                                                    },
+                                                                    {
+                                                                      "Name": "Icon",
+                                                                      "Value": "usd.ico"
+                                                                    }
+                                                                  ],
+                                                                  "Childrens": [
+                                                                    {
+                                                                      "Name": "command",
+                                                                      "Values": [
+                                                                        {
+                                                                          "Name": "Default",
+                                                                          "Value": "usddisplay.bat"
+                                                                        }
+                                                                      ],
+                                                                      "Childrens": [
+                                  
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "Name": "使用USDView打开(配置Arnold)",
+                                                                  "Values": [
+                                                                    {
+                                                                      "Name": "FriendlyAppName",
+                                                                      "Value": "UsdDisplayArnold"
+                                                                    },
+                                                                    {
+                                                                      "Name": "Icon",
+                                                                      "Value": "usd.ico"
+                                                                    }
+                                                                  ],
+                                                                  "Childrens": [
+                                                                    {
+                                                                      "Name": "command",
+                                                                      "Values": [
+                                                                        {
+                                                                          "Name": "Default",
+                                                                          "Value": "usddisplayarnold.bat"
+                                                                        }
+                                                                      ],
+                                                                      "Childrens": [
+                                  
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                {
+                                                                  "Name": "资产打包",
+                                                                  "Values": [
+                                                                    {
+                                                                      "Name": "FriendlyAppName",
+                                                                      "Value": "PackUsdAsset"
+                                                                    },
+                                                                    {
+                                                                      "Name": "Icon",
+                                                                      "Value": "usd.ico"
+                                                                    }
+                                                                  ],
+                                                                  "Childrens": [
+                                                                    {
+                                                                      "Name": "command",
+                                                                      "Values": [
+                                                                        {
+                                                                          "Name": "Default",
+                                                                          "Value": "PostAssetUI.bat"
+                                                                        }
+                                                                      ],
+                                                                      "Childrens": [
+                                  
+                                                                      ]
+                                                                    }
+                                                                  ]
+                                                                }
+                                                                
+                                                              ]
+                                                            }
+                                                          ]
+                                              }
                                         ]
                         }
                     ]

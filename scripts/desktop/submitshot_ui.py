@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'widgetBMoVFj.ui'
+## Form generated from reading UI file '上传动画WcuQlu.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.1
 ##
@@ -15,15 +15,15 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QGroupBox,
-    QHBoxLayout, QListWidget, QListWidgetItem, QPushButton,
-    QSizePolicy, QTextEdit, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QGroupBox, QHBoxLayout,
+    QListWidget, QListWidgetItem, QPushButton, QSizePolicy,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_Widget(object):
     def setupUi(self, Widget):
         if not Widget.objectName():
             Widget.setObjectName(u"Widget")
-        Widget.resize(298, 386)
+        Widget.resize(656, 723)
         sizePolicy = QSizePolicy(QSizePolicy.Maximum, QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -43,23 +43,30 @@ class Ui_Widget(object):
 
         self.horizontalLayout.addWidget(self.proj)
 
-        self.asset = QComboBox(Widget)
-        self.asset.setObjectName(u"asset")
+        self.sc = QComboBox(Widget)
+        self.sc.setObjectName(u"sc")
 
-        self.horizontalLayout.addWidget(self.asset)
+        self.horizontalLayout.addWidget(self.sc)
 
-        self.horizontalLayout.setStretch(0, 3)
-        self.horizontalLayout.setStretch(1, 2)
+        self.shot = QComboBox(Widget)
+        self.shot.setObjectName(u"shot")
+
+        self.horizontalLayout.addWidget(self.shot)
+
+        self.ver = QComboBox(Widget)
+        self.ver.setObjectName(u"ver")
+
+        self.horizontalLayout.addWidget(self.ver)
+
+        self.horizontalLayout.setStretch(0, 5)
+        self.horizontalLayout.setStretch(1, 3)
+        self.horizontalLayout.setStretch(2, 3)
+        self.horizontalLayout.setStretch(3, 2)
 
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.img = QListWidget(Widget)
-        self.img.setObjectName(u"img")
-
-        self.verticalLayout_2.addWidget(self.img)
-
         self.usd = QListWidget(Widget)
         self.usd.setObjectName(u"usd")
 
@@ -67,21 +74,6 @@ class Ui_Widget(object):
 
 
         self.verticalLayout.addLayout(self.verticalLayout_2)
-
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.radUsd = QCheckBox(Widget)
-        self.radUsd.setObjectName(u"radUsd")
-
-        self.horizontalLayout_2.addWidget(self.radUsd)
-
-        self.radImg = QCheckBox(Widget)
-        self.radImg.setObjectName(u"radImg")
-
-        self.horizontalLayout_2.addWidget(self.radImg)
-
-
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
 
         self.groupBox = QGroupBox(Widget)
         self.groupBox.setObjectName(u"groupBox")
@@ -126,9 +118,6 @@ class Ui_Widget(object):
     def retranslateUi(self, Widget):
         Widget.setWindowTitle(QCoreApplication.translate("Widget", u"Widget", None))
         self.proj.setPlaceholderText(QCoreApplication.translate("Widget", u"\u5de5\u7a0b", None))
-        self.asset.setPlaceholderText(QCoreApplication.translate("Widget", u"\u8d44\u4ea7", None))
-        self.radUsd.setText(QCoreApplication.translate("Widget", u"\u9009\u62e9\u6240\u6709USD", None))
-        self.radImg.setText(QCoreApplication.translate("Widget", u"\u9009\u62e9\u6240\u6709\u8d34\u56fe", None))
         self.groupBox.setTitle(QCoreApplication.translate("Widget", u"\u63d0\u4ea4\u8bf4\u660e", None))
         self.submit.setText(QCoreApplication.translate("Widget", u"\u63d0\u4ea4", None))
     # retranslateUi

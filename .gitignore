@@ -12,3 +12,6 @@ Release/
 Debug/
 build-*/
 build/
+
+*.pyc
+

@@ -20,6 +20,7 @@
 #include <pxr/usd/usdGeom/mesh.h>
 #include <pxr/usd/usdGeom/scope.h>
 #include <pxr/usd/usdGeom/primvar.h>
+#include <pxr/usd/usdGeom/camera.h>
 #include <pxr/usd/usdGeom/primvarsAPI.h>
 #include <pxr/usd/usdGeom/subset.h>
 #include <pxr/usd/usdGeom/metrics.h>

@@ -6,11 +6,13 @@
 #include "ui_widget.h"
 #include "EnvUtils.h"
 #include <qdebug.h>
+#include <qevent.h>
 #include <qmessagebox.h>
+#include <qfiledialog.h>
 #include <boost/filesystem.hpp>
 static QStringList AssetType{ "Elements","Chars","Props","Sets" };
 
-widget::widget(QWidget *parent, QString path):QWidget(parent), ui(new Ui::Widget),usd_path(path)
+widget::widget(QWidget *parent, QString path):QWidget(parent), ui(new Ui::Widget),usd_path(path),qset(new QSettings("./Setting.ini", QSettings::IniFormat))
 {
 	//usd_path = "D:/test/test2/maya3.usda";
 
@@ -18,6 +20,8 @@ widget::widget(QWidget *parent, QString path):QWidget(parent), ui(new Ui::Widget
 	ui->progressBar->setAlignment(Qt::AlignCenter);
 	ui->lineEdit_2->setText(usd_path);
 	this->setWindowTitle(tr("资产打包"));
+
+	ui->lineEdit_2->installEventFilter(this);
 
 	ui->progressBar->setMinimum(0);
 	ui->progressBar->setMaximum(100);
@@ -76,4 +80,34 @@ void widget::updataProcessBar()
 	ui->progressBar->setValue(current + 1);
 	ui->number->setText(QString(" %1 / %2").arg(current).arg(ui->progressBar->maximum()));
 	//qDebug() << "a";
+}
+
+bool widget::eventFilter(QObject* obj, QEvent* event)
+{
+	if (obj == ui->lineEdit_2) {
+		if (event->type() == QEvent::MouseButtonDblClick) {
+			modifyUsdPath();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	else {
+		// pass the event on to the parent class
+		return QWidget::eventFilter(obj, event);
+	}
+}
+
+void widget::modifyUsdPath()
+{
+	QString lastPath = qset->value("LastFilePath").toString();
+	QString pf=QFileDialog::getOpenFileName(this, tr("选择USD文件"), lastPath, tr("USD File (*.usd)"));
+	if (pf.isEmpty())
+		return;
+	if (!EnvTools::FileExist(pf.toStdString().c_str()))
+		return;
+
+	ui->lineEdit_2->setText(pf);
+	changeUsdPath(pf);
 }

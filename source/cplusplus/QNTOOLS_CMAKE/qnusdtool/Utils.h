@@ -7,11 +7,14 @@
 #include <ctype.h>
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/regex.hpp>
 
 #include <iostream>
 #include <string>
 #include <vector>
 
+
+#include "importlib.h"
 
 std::string GetRelPath(std::string path, const std::string& layer_path);
 
@@ -35,3 +38,10 @@ bool InVector(const std::vector<T>& old_paths,const T & a)
     }
     return false;
 }
+
+
+bool GetShotAssetRelPath(std::string s_p, std::string& o_p);
+//std::string GetRelReferencePath(const std::string& old_path, const std::string& layer_path);
+std::vector<std::string> GetRelSublayerPathVector(const std::vector<std::string>& old_paths, const std::string layer_path);
+void RemoveReferences(std::string primpath, std::vector<pxr::UsdPrimCompositionQueryArc>& layers, std::map<std::string, std::vector<std::string>>& reflayers);
+std::vector<std::string> RemoveSubLayer(pxr::SdfLayerHandle layer, const std::string layer_path);

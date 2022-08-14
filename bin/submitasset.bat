@@ -1,1 +1,1 @@
-python %QNTOOLS%\scripts\desktop\submitasset.py
+python %QNTOOLS%\scripts\desktop\submitasset_exe.py

@@ -4,7 +4,7 @@ Console.WriteLine("开始安装!");
 env.Set();
 ExplorerMenuConfig.Set();
 UsdFormatConfig.Set();
-InstallMayaUSD.Set();
+//InstallMayaUSD.Set();
 
 Console.WriteLine("安装完成!");
 Console.ReadKey();

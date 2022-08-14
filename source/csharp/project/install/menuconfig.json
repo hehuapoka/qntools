@@ -21,7 +21,7 @@
                                                                 "Values":[],
                                                                 "Childrens":[
                                                                                 {
-                                                                                    "Name":"创建新资产",
+                                                                                    "Name":"创建资产从文件",
                                                                                     "Values":[
                                                                                                 {"Name":"Icon","Value":"new.ico"}
                                                                                             ],
@@ -30,22 +30,6 @@
                                                                                                         "Name":"command",
                                                                                                         "Values":[
                                                                                                                     {"Name":"Default","Value":"newasset.bat"}
-                                                                                                                ],
-                                                                                                        "Childrens":[
-                                                                                                                    ]
-                                                                                                    }
-                                                                                                ]
-                                                                                },
-                                                                                {
-                                                                                    "Name":"更新资产文件",
-                                                                                    "Values":[
-                                                                                                {"Name":"Icon","Value":"update.ico"}
-                                                                                            ],
-                                                                                    "Childrens":[
-                                                                                                    {
-                                                                                                        "Name":"command",
-                                                                                                        "Values":[
-                                                                                                                    {"Name":"Default","Value":"updataasset.exe"}
                                                                                                                 ],
                                                                                                         "Childrens":[
                                                                                                                     ]

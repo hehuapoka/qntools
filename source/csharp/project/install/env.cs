@@ -30,6 +30,12 @@ public static class env
     {
         Environment.SetEnvironmentVariable("QNTOOLS", Path.GetFullPath(Directory.GetCurrentDirectory()), EnvironmentVariableTarget.User);
     }
+
+    public static void SetPATH()
+    {
+        Environment.SetEnvironmentVariable("QNTOOLS", Path.GetFullPath(Directory.GetCurrentDirectory()), EnvironmentVariableTarget.User);
+    }
+
     public static void SetOCIO()
     {
         Environment.SetEnvironmentVariable("OCIO", Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), @"config\aces_1.2\config.ocio")), EnvironmentVariableTarget.User);

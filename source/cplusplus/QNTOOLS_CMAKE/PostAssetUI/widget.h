@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <qstring.h>
+#include <qsettings.h>
 #include "work.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -19,6 +20,7 @@ public:
 private:
 	Ui::Widget* ui;
 	mywork* task;
+	QSettings* qset;
 
 public slots:
 	void clickButton();
@@ -28,4 +30,9 @@ public slots:
 	void updataProcessBar();
 public slots:
 	void changeUsdPath(QString value);
+public:
+	void modifyUsdPath();
+
+protected:
+	bool eventFilter(QObject* obj, QEvent* event);
 };
