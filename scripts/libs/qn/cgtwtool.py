@@ -27,7 +27,7 @@ def addScCombobox(tw:cgtw2.tw,widget:QComboBox,data_db:str):
 def addShotCombobox(tw:cgtw2.tw,widget:QComboBox,data_db:str,sc_id:str):
     widget.clear()
     t_id_list=tw.info.get_id(db=data_db,module='shot',filter_list=[["seq.id","=",sc_id]])
-    a=tw.info.get(db=data_db,module='shot',id_list=t_id_list,field_sign_list=['shot.entity'])
+    a=tw.info.get(db=data_db,module='shot',id_list=t_id_list,field_sign_list=['shot.entity',"seq.entity"])
 
     #init frist
     for i in a:

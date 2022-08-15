@@ -5,13 +5,20 @@
 #include <boost/regex.hpp>
 
 using namespace pxr;
-void InitUSDLayer(pxr::UsdStageRefPtr stage, double start, double end,UsdPrim& default)
+void InitUSDLayer(pxr::UsdStageRefPtr stage, double start, double end,UsdPrim& default_prim)
 {
 	UsdGeomSetStageUpAxis(stage, pxr::UsdGeomTokens->y);
 	UsdGeomSetStageMetersPerUnit(stage, 0.01);
 	stage->SetStartTimeCode(start);
 	stage->SetEndTimeCode(end);
-	stage->SetDefaultPrim(default);
+	stage->SetDefaultPrim(default_prim);
+}
+void InitUSDLayer(pxr::UsdStageRefPtr stage, double start, double end)
+{
+	UsdGeomSetStageUpAxis(stage, pxr::UsdGeomTokens->y);
+	UsdGeomSetStageMetersPerUnit(stage, 0.01);
+	stage->SetStartTimeCode(start);
+	stage->SetEndTimeCode(end);
 }
 
 template <typename T>
@@ -63,13 +70,14 @@ void CopyShotPrimvars(UsdStageRefPtr stage,UsdGeomMesh& source_prim, UsdGeomMesh
     {
         std::string attr_name = i.GetName();
         std::string attr_name_strip = UsdGeomPrimvar::StripPrimvarsName(TfToken(attr_name)).GetString();
+		
 		if (use_normal)
 		{
 			if (attr_name_strip == "normals")
 			{
 				VtValue value;
 				UsdGeomPrimvar attr = dest_prim.CreatePrimvar(TfToken(attr_name_strip), i.GetTypeName(), UsdGeomTokens->faceVarying);
-
+				
 				for (double t = stage->GetStartTimeCode(); t <= stage->GetEndTimeCode(); t++)
 				{
 					UsdTimeCode _t = UsdTimeCode(t);
@@ -85,10 +93,10 @@ void CopyShotPrimvars(UsdStageRefPtr stage,UsdGeomMesh& source_prim, UsdGeomMesh
         
         if (attr_name_strip.substr(0, 2) == "st")
         {
+			
             VtValue value;
-            if (i.ComputeFlattened(&value))
+            if (i.ComputeFlattened(&value,UsdTimeCode(stage->GetStartTimeCode())))
             {
-
                 UsdGeomPrimvar attr = dest_prim.CreatePrimvar(TfToken(attr_name), i.GetTypeName(), i.GetInterpolation());
                 attr.Set(value);
 
@@ -164,9 +172,22 @@ void PostProcessShotXform(UsdStageRefPtr old_stage,UsdStageRefPtr stage, UsdGeom
 }
 
 
-void CompositionAnimFiles_ANIM(std::string file,const std::string& his, bool use_normal=true)
+void CompositionAnimFiles_ANIM(std::string file, bool use_normal=true)
 {
+	std::string his = "";
 	auto stageA = UsdStage::Open(file);
+	//get his
+	UsdPrimRange stageA_prims=stageA->Traverse();
+	for (auto stageA_prim = stageA_prims.begin(); stageA_prim != stageA_prims.end(); stageA_prim++)
+	{
+		if (stageA_prim->GetName() == TfToken("render") && stageA_prim->GetTypeName() == TfToken("Xform"))
+		{
+			
+			his = stageA_prim->GetPrimPath().GetString();
+		}
+	}
+	if (his == "") return;
+
 	std::string new_file = (boost::filesystem::path(".\\temp") / boost::filesystem::path(file).filename()).string();
 	auto stageB = UsdStage::CreateNew(new_file);
 
@@ -333,25 +354,96 @@ void CompositionAnimFiles_SC(std::string file)
 	root_layer->Save();
 
 }
-void CompositionAnimFiles(const std::vector<std::string>& files, std::vector<USDTYPE>& usd_type,const std::vector<std::string>& his)
+//void CompositionAnimFiles(const std::vector<std::string>& files, std::vector<USDTYPE>& usd_type)
+//{
+//	if (!boost::filesystem::exists(".\\temp"))
+//		boost::filesystem::create_directory("temp");
+//
+//	for (int f = 0; f < files.size(); f++)
+//	{
+//		if (usd_type[f] == USDTYPE::ANIM)
+//		{
+//			CompositionAnimFiles_ANIM(files[f],false);
+//		}
+//		else if (usd_type[f] == USDTYPE::CAM)
+//		{
+//			CompositionAnimFiles_CAM(files[f]);
+//		}
+//		else if (usd_type[f] == USDTYPE::SC)
+//		{
+//			CompositionAnimFiles_SC(files[f]);
+//		}
+//	}
+//	
+//}
+
+void CompositionAnimFiles(const std::string file, USDTYPE usd_type,bool usd_normal)
 {
 	if (!boost::filesystem::exists(".\\temp"))
 		boost::filesystem::create_directory("temp");
 
-	for (int f = 0; f < files.size(); f++)
+	if (usd_type == USDTYPE::ANIM)
 	{
-		if (usd_type[f] == USDTYPE::ANIM)
-		{
-			CompositionAnimFiles_ANIM(files[f],his[f],false);
-		}
-		else if (usd_type[f] == USDTYPE::CAM)
-		{
-			CompositionAnimFiles_CAM(files[f]);
-		}
-		else if (usd_type[f] == USDTYPE::SC)
-		{
-			CompositionAnimFiles_SC(files[f]);
-		}
+		CompositionAnimFiles_ANIM(file,usd_normal);
 	}
-	
+	else if (usd_type == USDTYPE::CAM)
+	{
+		CompositionAnimFiles_CAM(file);
+	}
+	else if (usd_type == USDTYPE::SC)
+	{
+		CompositionAnimFiles_SC(file);
+	}
+}
+
+
+bool CreateShotAnimLayer(std::vector<AnimCompositionInfo>& infos, const char* path)
+{
+	try {
+		auto stage = UsdStage::CreateNew(path);
+		if (infos.size() > 0)
+		{
+			SdfLayerRefPtr aa = SdfLayer::FindOrOpen(infos[0].anim_path);
+			InitUSDLayer(stage, aa->GetStartTimeCode(), aa->GetEndTimeCode());
+		}
+			
+		//´´½¨Default his
+		auto anims = UsdGeomXform::Define(stage, SdfPath("/Anims"));
+		auto cameras = UsdGeomXform::Define(stage, SdfPath("/Anims/Cameras"));
+		auto caches = UsdGeomXform::Define(stage, SdfPath("/Anims/Caches"));
+
+		for (int i = 0; i < infos.size(); i++)
+		{
+			if (infos[i].usd_type == USDTYPE::CAM)
+			{
+				SdfPath cam_path = SdfPath("/Anims/Cameras/" + infos[i].prim_name);
+				UsdPrim sub_xform = stage->DefinePrim(SdfPath("/Anims/Cameras"), TfToken("Xform"));
+				UsdPrim render_xform = stage->DefinePrim(cam_path);
+
+				render_xform.GetReferences().AddReference(infos[i].anim_path);
+			}
+			else if (infos[i].usd_type == USDTYPE::ANIM)
+			{
+				SdfPath root_sdfpath = SdfPath("/Anims/Caches/" + infos[i].prim_name);
+				SdfPath geo_sdfpath = SdfPath("/Anims/Caches/" + infos[i].prim_name + "/geo");
+				SdfPath render_sdfpath = SdfPath("/Anims/Caches/" + infos[i].prim_name+"/geo/render");
+
+				UsdPrim sub_xform = stage->DefinePrim(root_sdfpath);
+				UsdPrim geo_xform = stage->DefinePrim(root_sdfpath);
+				UsdPrim render_xform = stage->DefinePrim(render_sdfpath);
+
+				render_xform.GetReferences().AddReference(infos[i].anim_path);
+			}
+
+		}
+		stage->GetRootLayer()->Save();
+
+		return true;
+
+	}
+	catch (...)
+	{
+		return false;
+	}
+
 }

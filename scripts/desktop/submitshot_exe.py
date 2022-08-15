@@ -13,7 +13,42 @@ sys.path.append(os.path.join(os.environ['CGTEAMWORK_LOCATION'],"bin\\base").repl
 
 import cgtw2
 # t_tw = cgtw2.tw()
+import qnusdtool_py as qn_py
 from qn.cgtwtool import (addProjectCombox,addScCombobox,addShotCombobox,addShotAnimVerCombobox)
+from qn.qnassettool import CacheUSDInAssetLibs
+
+class MainTask(QThread):
+    def __init__(self,convert_list:dict,SC:str,Shot:str,parent=None) -> None:
+        super().__init__(parent)
+        self.c_l = convert_list
+        self.SC = SC
+        self.Shot = Shot
+    def getrel(self,path:str):
+        return "./"+os.path.basename(path)
+    def getname(self,path:str):
+        return os.path.basename(path).split(".")[0]
+    def run(self):
+        need= []
+        for i in self.c_l["files"]:
+            if i['type'] == 0:
+                qn_py.ConvertShotUSD(i['path'] ,qn_py.USDTYPE.ANIM,True)
+                new_f = self.getrel(i['path'])
+                if os.path.exists(new_f):
+                    need.append(qn_py.AnimCompositionInfo(qn_py.USDTYPE.ANIM,self.getname(new_f),"",new_f))
+            elif i['type'] == 1:
+                qn_py.ConvertShotUSD(i['path'] ,qn_py.USDTYPE.CAM,True)
+                new_f = self.getrel(i['path'])
+                if os.path.exists(new_f):
+                    need.append(qn_py.AnimCompositionInfo(qn_py.USDTYPE.CAM,self.getname(new_f),"",new_f))
+            elif i['type'] == 2:
+                qn_py.ConvertShotUSD(i['path'] ,qn_py.USDTYPE.MOV,True)
+            elif i['type'] == 3:
+                qn_py.ConvertShotUSD(i['path'] ,qn_py.USDTYPE.SC,True)
+        qn_py.ConvertShotAnimLayer(need,f"./temp/{self.SC}_{self.Shot}_Anims.usda")
+        
+
+        
+
 class MainListItem(QWidget):
     _class = 0
     def __init__(self, parent=None,label="",add_type=0) -> None:
@@ -139,7 +174,7 @@ class MainWin(QWidget):
             addShotAnimVerCombobox(self._tw,self.ui.ver,data['project.database'],shot['id'])
 
     def run(self):
-        if self.ui.shot.currentData() == None or  self.ui.ver.count() < 1:
+        if self.ui.shot.currentData() == None or  self.ui.ver.count() < 1 or self.ui.sc.currentData() == None:
             QMessageBox.warning(self,"提示","不能提交因为没用匹配的任务")
             return
         if QMessageBox.StandardButton.Yes != QMessageBox.question(self,"询问","你确定要提交吗?"):
@@ -153,15 +188,20 @@ class MainWin(QWidget):
         for i in range(self.ui.usd.count()):
             item =self.ui.usd.item(i)
             widget:MainListItem = self.ui.usd.itemWidget(item)
+            p =os.path.abspath(".\\"+widget.label.text())
             if widget.check.checkState() == Qt.Checked: 
+                # if CacheUSDInAssetLibs(self._tw,data['project.database']) == None and widget._class == 0:
+                #     continue
                 data["files"].append({
-                    "path":os.path.abspath(".\\"+widget.label.text()),
+                    "path":p,
                     "type":widget._class,
                     'rename':"",
                 })
             
         if len(data) >0:
-            print(data)
+            self._task=MainTask(data,self.ui.shot.currentData()['seq.entity'],self.ui.shot.currentData()['shot.entity'],self)
+            self._task.finished.connect(self.taskFinished)
+            self._task.start()
     def taskFinished(self):
         self.ui.node.setDisabled(False)
         self.ui.submit.setDisabled(False)
