@@ -33,7 +33,7 @@ def run():
 
         pm.setParent( '..', menu=True )
         pm.menuItem(label=u'解算工具',subMenu=True)
-        pm.menuItem(label=u'导出角色布料')
+        pm.menuItem(label=u'导出角色布料',command="import usdcfxexport\nusdcfxexport.run()")
         pm.menuItem(label=u'导出角色毛发')
     except:
         print("plus in loading error")

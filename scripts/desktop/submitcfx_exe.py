@@ -14,7 +14,7 @@ sys.path.append(os.path.join(os.environ['CGTEAMWORK_LOCATION'],"bin\\base").repl
 import cgtw2
 # t_tw = cgtw2.tw()
 import qnusdtool_py as qn_py
-from qn.cgtwtool import (addProjectCombox,addScCombobox,addShotCombobox,addShotAnimVerCombobox)
+from qn.cgtwtool import (addProjectCombox,addScCombobox,addShotCombobox,addShotCfxVerCombobox)
 from qn.qnassettool import CacheUSDInAssetLibs
 
 class MainTask(QThread):
@@ -43,47 +43,23 @@ class MainTask(QThread):
         need= []
         need_publish_usd=[]
         need_publish_mov=[]
-        scene = ""
+
         for i in self.c_l["files"]:
             if i['type'] == 0:
-                qn_py.ConvertShotUSD(i['path'] ,qn_py.USDTYPE.ANIM,i['normal'])
+                qn_py.ConvertShotUSD(i['path'] ,qn_py.USDTYPE.ANIM,True)
                 new_f = self.getrel(i['path'])
                 if os.path.exists(new_f):
                     need.append(qn_py.AnimCompositionInfo(qn_py.USDTYPE.ANIM,self.getname(new_f),i['asset'],new_f))
                     need_publish_usd.append(self.gettemprel(i['path']))
-            elif i['type'] == 1:
-                qn_py.ConvertShotUSD(i['path'] ,qn_py.USDTYPE.CAM,True)
-                new_f = self.getrel(i['path'])
-                if os.path.exists(new_f):
-                    need.append(qn_py.AnimCompositionInfo(qn_py.USDTYPE.CAM,self.getname(new_f),i['asset'],new_f))
-                    need_publish_usd.append(self.gettemprel(i['path']))
+            
             elif i['type'] == 2:
                 qn_py.ConvertShotUSD(i['path'] ,qn_py.USDTYPE.MOV,True)
                 need_publish_mov.append(self.gettemprel(i['path']))
-            elif i['type'] == 3:
-                scene = self.getrel(i['path'])
-                qn_py.ConvertShotUSD(i['path'] ,qn_py.USDTYPE.SC,True)
-                need_publish_usd.append(self.gettemprel(i['path']))
-        
-        out_anim_layer = f"./temp/{self.SC}_{self.Shot}_Anims.usda"
-        out_animscene_layer = f"./temp/{self.SC}_{self.Shot}_AnimsScene.usda"
+
+
+        out_anim_layer = f"./temp/{self.SC}_{self.Shot}_Cfx.usda"
         qn_py.ConvertShotAnimLayer(need, out_anim_layer)
-        qn_py.CreateShotAnimALLLayer(out_animscene_layer, out_anim_layer,scene)
-
-        need_publish_usd.append(os.path.abspath(out_anim_layer))
-        need_publish_usd.append(os.path.abspath(out_animscene_layer))
-
-        if len(need_publish_usd) > 0:
-            if self._ver == 0:
-                self._tw.task.publish(db=self._db,module='shot',id=self._id,path_list=need_publish_usd,filebox_sign="anim_usd",note=self._note)
-            else:
-                self._tw.task.publish(db=self._db,module='shot',id=self._id,path_list=need_publish_usd,filebox_sign="anim_usd",version=f"{self._ver:03}",note=self._note)
-
-        if len(need_publish_mov) > 0:
-            if self._ver == 0:
-                self._tw.task.publish(db=self._db,module='shot',id=self._id,path_list=need_publish_usd,filebox_sign="anim_mov",note=self._note)
-            else:
-                self._tw.task.publish(db=self._db,module='shot',id=self._id,path_list=need_publish_usd,filebox_sign="anim_mov",version=f"{self._ver:03}",note=self._note)
+        
 
         
 
@@ -133,15 +109,14 @@ class MainListItem(QWidget):
 
         self.label = QLabel(label,self)
 
-        self.normal = QCheckBox("N",self)
-        if add_type != 0:
-            self.normal.setHidden(True)
+
+        self.normal = QCheckBox(self)
         self.normal.setCheckState(Qt.CheckState.Unchecked)
         self.normal.setSizePolicy(QSizePolicy.Policy.Fixed,QSizePolicy.Policy.Fixed)
 
         self.space= QSpacerItem(298, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
-        
+
         self.main_layout = QHBoxLayout(self)
         self.main_layout.addWidget(self.check,1)
         self.main_layout.addWidget(self.anim_type,2)
@@ -175,35 +150,21 @@ class MainWin(QWidget):
                 continue
 
             m_u=re.match(r"(Chars|Elements|Props)_([a-z]+)_[0-9]+\.usd$",i,re.I)
-            m_c=re.match(r"Camera_[0-9]+\.usd$",i,re.I)
             m_v=re.match(r".+\.mov$",i,re.I)
-            m_s=re.match(r"Scene_Anim.usd$",i,re.I)
+
             if m_u:
                 v = QListWidgetItem()
                 d = MainListItem(label=i,add_type=0)
                 v.setSizeHint(d.sizeHint())
                 self.ui.usd.addItem(v)
                 self.ui.usd.setItemWidget(v,d)
-            if m_c:
-                v = QListWidgetItem()
-                d = MainListItem(label=i,add_type=1)
-                v.setSizeHint(d.sizeHint())
-                self.ui.usd.addItem(v)
-                self.ui.usd.setItemWidget(v,d)
-            
+
             if m_v:
                 v = QListWidgetItem()
                 d = MainListItem(label=i,add_type=2)
                 v.setSizeHint(d.sizeHint())
                 self.ui.usd.addItem(v)
                 self.ui.usd.setItemWidget(v,d)
-            if m_s:
-                v = QListWidgetItem()
-                d = MainListItem(label=i,add_type=3)
-                v.setSizeHint(d.sizeHint())
-                self.ui.usd.addItem(v)
-                self.ui.usd.setItemWidget(v,d)
-
         self.initProj()
         self.updateSc()
     def initProj(self):
@@ -222,7 +183,7 @@ class MainWin(QWidget):
         data = self.ui.proj.currentData()
         shot = self.ui.shot.currentData()
         if data != None and shot != None:
-            addShotAnimVerCombobox(self._tw,self.ui.ver,data['project.database'],shot['id'])
+            addShotCfxVerCombobox(self._tw,self.ui.ver,data['project.database'],shot['id'])
 
     def run(self):
         if self.ui.shot.currentData() == None or  self.ui.ver.count() < 1 or self.ui.sc.currentData() == None:
@@ -243,15 +204,10 @@ class MainWin(QWidget):
             widget:MainListItem = self.ui.usd.itemWidget(item)
             p =os.path.abspath(".\\"+widget.label.text())
             if widget.check.checkState() == Qt.Checked: 
-                a_p = ""
-                a_ord =  CacheUSDInAssetLibs(self._tw,db,p)
-                if a_ord != None and widget._class == 0:
-                    a_p = f"../../../../../Asset/{a_ord['asset_type']}/{a_ord['asset_name']}/USD/{a_ord['asset_type']}_{a_ord['asset_name']}.usda"
                 data["files"].append({
                     "path":p,
                     "type":widget._class,
-                    'asset':a_p,
-                    'normal':widget.normal.checkState == Qt.CheckState.Checked
+                    'asset':"",
                 })
             
         if len(data) >0:

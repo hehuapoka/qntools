@@ -119,6 +119,37 @@
                                                                             ]
                                                             }
                                                         ]
+                                        },
+                                        {
+                                            "Name":"动画",
+                                            "Values":[
+                                                        {"Name":"Icon","Value":"cam.ico"},
+                                                        {"Name":"SubCommands","Value":null}
+                                                    ],
+                                            "Childrens":[
+                                                            {
+                                                                "Name":"shell",
+                                                                "Values":[],
+                                                                "Childrens":[
+                                                                                {
+                                                                                    "Name":"上传动画",
+                                                                                    "Values":[
+                                                                                                {"Name":"Icon","Value":"upload.ico"}
+                                                                                            ],
+                                                                                    "Childrens":[
+                                                                                                    {
+                                                                                                        "Name":"command",
+                                                                                                        "Values":[
+                                                                                                                    {"Name":"Default","Value":"submitshot.bat"}
+                                                                                                                ],
+                                                                                                        "Childrens":[
+                                                                                                                    ]
+                                                                                                    }
+                                                                                                ]
+                                                                                }
+                                                                            ]
+                                                            }
+                                                        ]
                                         }
                                     ]
                     }

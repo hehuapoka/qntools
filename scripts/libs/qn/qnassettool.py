@@ -25,7 +25,7 @@ def CacheUSDInAssetLibs(t_tw,db,filepath):
     infos = t_tw.info.get(db=db, module="asset", id_list=ids, field_sign_list=['asset.entity','asset.link_asset_type'])
 
     filename = os.path.basename(filepath)
-    d=re.match(r"^([a-z]+)_([a-z]+)_.+_([0-9]+)\.[a-z]+$",filename,re.I)
+    d=re.match(r"^([a-z]+)_([a-z]+)_([0-9]+)\.[a-z]+$",filename,re.I)
     if d != None:
         asset_type = d.group(1)
         asset_name = d.group(2)

@@ -40,7 +40,7 @@ bool InVector(const std::vector<T>& old_paths,const T & a)
 }
 
 
-bool GetShotAssetRelPath(std::string s_p, std::string& o_p);
+std::string GetShotAssetRelPath(std::string s_p, const std::string& layer_path);
 //std::string GetRelReferencePath(const std::string& old_path, const std::string& layer_path);
 std::vector<std::string> GetRelSublayerPathVector(const std::vector<std::string>& old_paths, const std::string layer_path);
 void RemoveReferences(std::string primpath, std::vector<pxr::UsdPrimCompositionQueryArc>& layers, std::map<std::string, std::vector<std::string>>& reflayers);

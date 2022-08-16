@@ -22,6 +22,8 @@ class Ui_QNUsdExport(object):
         self.start_frame = QSpinBox(self.groupBox)
         self.start_frame.setObjectName(u"start_frame")
         self.start_frame.setValue(1)
+        self.start_frame.setMinimum(-10000)
+        self.start_frame.setMaximum(10000)
 
         self.gridLayout.addWidget(self.start_frame, 1, 0, 1, 1)
 
@@ -48,6 +50,8 @@ class Ui_QNUsdExport(object):
         self.end_frame = QSpinBox(self.groupBox)
         self.end_frame.setObjectName(u"end_frame")
         self.end_frame.setValue(1)
+        self.end_frame.setMinimum(-10000)
+        self.end_frame.setMaximum(10000)
 
         self.gridLayout.addWidget(self.end_frame, 1, 1, 1, 1)
 

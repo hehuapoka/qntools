@@ -16,20 +16,20 @@ std::string GetRelPath(std::string path, const std::string& layer_path)
 }
 
 
-bool GetShotAssetRelPath(std::string s_p, std::string& o_p)
+std::string GetShotAssetRelPath(std::string s_p, const std::string& layer_path)
 {
 	using namespace boost;
 	replace_all(s_p, "\\", "/");
 
-	regex exp(".+(USD/[a-z]+/[a-z]+/[a-z]+/USD/[a-z]+_[a-z]+.\\usda)$", regex::icase);
+	regex exp(".+(Asset/[a-z]+/[a-z]+/USD/[a-z]+_[a-z]+.\\usda)$", regex::icase);
 	boost::smatch what;
 	bool su = regex_match(s_p, what, exp, match_flag_type::match_perl);
 	if (su)
 	{
-		o_p = std::string("../../../../") + what[1].str();
-		return true;
+		return std::string("../../../../../") + what[1].str();
 	}
-	return false;
+
+	return GetRelPath(s_p, layer_path);
 
 }
 
@@ -53,14 +53,7 @@ std::vector<std::string> GetRelSublayerPathVector(const std::vector<std::string>
 	std::string n_p;
 	for (const std::string& p : old_paths)
 	{
-		if (GetShotAssetRelPath(p, n_p))
-		{
-			new_paths.push_back(n_p);
-		}
-		else
-		{
-			new_paths.push_back(GetRelPath(p, layer_path));
-		}
+		new_paths.push_back(GetShotAssetRelPath(p, layer_path));
 	}
 	return new_paths;
 }

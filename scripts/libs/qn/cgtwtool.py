@@ -43,7 +43,23 @@ def addShotAnimVerCombobox(tw:cgtw2.tw,widget:QComboBox,data_db:str,shot_id:str)
     anims=tw.task.get_sign_filebox(db=data_db,module="shot",id=task_ids[0],filebox_sign="anim_usd")
     max_version = anims['last_max_version']
 
-    widget.addItem('默认(递增)',userData=task_ids)
+    widget.addItem('默认(递增)',userData=task_ids[0])
     if max_version != "":
         for i in range(int(max_version)):
-            widget.addItem(f'v{i:03}',userData=task_ids[0])
+            widget.addItem(f'v{i+1:03}',userData=task_ids[0])
+
+
+def addShotCfxVerCombobox(tw:cgtw2.tw,widget:QComboBox,data_db:str,shot_id:str):
+    widget.clear()
+
+    task_ids=tw.task.get_id(data_db,"shot",filter_list=[['shot.id','=',shot_id],['pipeline.entity','=','CFX']])
+
+    if len(task_ids) < 1:return
+
+    anims=tw.task.get_sign_filebox(db=data_db,module="shot",id=task_ids[0],filebox_sign="cfx_mesh")
+    max_version = anims['last_max_version']
+
+    widget.addItem('默认(递增)',userData=task_ids[0])
+    if max_version != "":
+        for i in range(int(max_version)):
+            widget.addItem(f'v{i+1:03}',userData=task_ids[0])

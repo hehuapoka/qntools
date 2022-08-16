@@ -66,8 +66,10 @@ void AddShotXformMatrix(UsdStageRefPtr stage,T& source_prim, T& dest_prim)
 void CopyShotPrimvars(UsdStageRefPtr stage,UsdGeomMesh& source_prim, UsdGeomMesh& dest_prim, bool use_normal = true)
 {
     //SdfValueTypeNames
+
     for (auto& i : source_prim.GetPrimvars())
     {
+		
         std::string attr_name = i.GetName();
         std::string attr_name_strip = UsdGeomPrimvar::StripPrimvarsName(TfToken(attr_name)).GetString();
 		
@@ -87,7 +89,6 @@ void CopyShotPrimvars(UsdStageRefPtr stage,UsdGeomMesh& source_prim, UsdGeomMesh
 						attr.Set(value, _t);
 					}
 				}
-
 			}
 		}
         
@@ -132,13 +133,13 @@ void PostProcessShotMesh(UsdStageRefPtr old_stage ,UsdStageRefPtr stage, UsdGeom
 
 	//UsdAttribute extent = prim.GetExtentAttr();
 
-	if (vertex_index.Get(&vertex_point))
+	if (vertex_index.Get(&vertex_point,old_stage->GetStartTimeCode()))
 	{
-		new_vertex_index.Set(vertex_point);
+		new_vertex_index.Set(vertex_point, old_stage->GetStartTimeCode());
 	}
-	if (vertex_faces.Get(&vertex_prim))
+	if (vertex_faces.Get(&vertex_prim, old_stage->GetStartTimeCode()))
 	{
-		new_vertex_faces.Set(vertex_prim);
+		new_vertex_faces.Set(vertex_prim, old_stage->GetStartTimeCode());
 	}
 
 	
@@ -160,6 +161,12 @@ void PostProcessShotMesh(UsdStageRefPtr old_stage ,UsdStageRefPtr stage, UsdGeom
 
     CopyShotPrimvars(old_stage,prim, new_prim, use_normal);
 
+	if (!use_normal)
+	{
+		new_prim.CreatePrimvar(TfToken("normals"),SdfValueTypeNames->Vector3fArray,UsdGeomTokens->faceVarying).GetAttr().Block();
+		new_prim.GetNormalsAttr().Block();
+	}
+
 
 }
 void PostProcessShotXform(UsdStageRefPtr old_stage,UsdStageRefPtr stage, UsdGeomXform& prim, const std::string& his)
@@ -180,7 +187,7 @@ void CompositionAnimFiles_ANIM(std::string file, bool use_normal=true)
 	UsdPrimRange stageA_prims=stageA->Traverse();
 	for (auto stageA_prim = stageA_prims.begin(); stageA_prim != stageA_prims.end(); stageA_prim++)
 	{
-		if (stageA_prim->GetName() == TfToken("render") && stageA_prim->GetTypeName() == TfToken("Xform"))
+		if (stageA_prim->GetName() == TfToken("render") && (stageA_prim->GetTypeName() == TfToken("Xform") || stageA_prim->GetTypeName() == TfToken("Scope")))
 		{
 			
 			his = stageA_prim->GetPrimPath().GetString();
@@ -338,15 +345,7 @@ void CompositionAnimFiles_SC(std::string file)
 
 		for (std::string& ss : ref->second)
 		{
-			if (GetShotAssetRelPath(ss, n_p))
-			{
-				prim.GetReferences().AddReference(n_p);
-			}
-			else
-			{
-				//std::cout << GetRelPath(ss, pp.string()) << std::endl << ss << std::endl<< pp.string() <<std::endl;
-				prim.GetReferences().AddReference(GetRelPath(ss, pp.string()));
-			}
+			prim.GetReferences().AddReference(GetShotAssetRelPath(ss, pp.string()));
 		}
 	}
 
@@ -396,11 +395,11 @@ void CompositionAnimFiles(const std::string file, USDTYPE usd_type,bool usd_norm
 	}
 }
 
-
 bool CreateShotAnimLayer(std::vector<AnimCompositionInfo>& infos, const char* path)
 {
 	try {
 		auto stage = UsdStage::CreateNew(path);
+
 		if (infos.size() > 0)
 		{
 			SdfLayerRefPtr aa = SdfLayer::FindOrOpen(infos[0].anim_path);
@@ -429,14 +428,19 @@ bool CreateShotAnimLayer(std::vector<AnimCompositionInfo>& infos, const char* pa
 				SdfPath render_sdfpath = SdfPath("/Anims/Caches/" + infos[i].prim_name+"/geo/render");
 
 				UsdPrim sub_xform = stage->DefinePrim(root_sdfpath);
-				UsdPrim geo_xform = stage->DefinePrim(root_sdfpath);
+				UsdPrim geo_xform = stage->DefinePrim(geo_sdfpath);
 				UsdPrim render_xform = stage->DefinePrim(render_sdfpath);
 
+				if(infos[i].asset_path != "")
+					sub_xform.GetReferences().AddReference(infos[i].asset_path);
 				render_xform.GetReferences().AddReference(infos[i].anim_path);
+				//std::cout << infos[i].asset_path << "====>" << std::endl;
 			}
 
 		}
 		stage->GetRootLayer()->Save();
+
+		
 
 		return true;
 
@@ -446,4 +450,22 @@ bool CreateShotAnimLayer(std::vector<AnimCompositionInfo>& infos, const char* pa
 		return false;
 	}
 
+}
+
+
+void CreateShotAnimALLLayer(const std::string& path, const std::string& path2, const std::string& path3)
+{
+	auto stage = UsdStage::CreateNew(path);
+
+	SdfLayerRefPtr aa = SdfLayer::FindOrOpen(path2);
+
+	InitUSDLayer(stage, aa->GetStartTimeCode(), aa->GetEndTimeCode());
+	//add sub
+	std::vector<std::string> ap;
+	ap.push_back("./" + boost::filesystem::path(path2).filename().string());
+	if (path3 != "")
+		ap.push_back("./" + boost::filesystem::path(path3).filename().string());
+	stage->GetRootLayer()->SetSubLayerPaths(ap);
+
+	stage->GetRootLayer()->Save();
 }

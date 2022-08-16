@@ -37,6 +37,7 @@
 #include <pxr/usd/usdShade/material.h>
 #include <pxr/usd/usdShade/shader.h>
 #include <pxr/usd/usdShade/materialBindingAPI.h>
+#include <MaterialXRender/Mesh.h>
 
 
 

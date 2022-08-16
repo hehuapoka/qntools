@@ -62,4 +62,5 @@ BOOST_PYTHON_MODULE(qnusdtool_py)
 		;
 	def("ConvertShotUSD", ConvertShotUSD);
 	def("ConvertShotAnimLayer", ConvertShotAnimLayer);
+	def("CreateShotAnimALLLayer", CreateShotAnimALLLayer);
 }
