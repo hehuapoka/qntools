@@ -41,6 +41,14 @@ void ConvertShotAnimLayer(const bpy::list& lhs,const char* usd_path)
 	CreateShotAnimLayer(out_vec, usd_path);
 }
 
+void ConvertShotCfxLayer(const bpy::list& lhs, const char* usd_path)
+{
+	//std::cout << normal << std::endl;
+	std::vector<AnimCompositionInfo> out_vec;
+	py2stl(lhs, out_vec);
+	CreateShotCfxLayer(out_vec, usd_path);
+}
+
 
 
 BOOST_PYTHON_MODULE(qnusdtool_py)
@@ -62,5 +70,6 @@ BOOST_PYTHON_MODULE(qnusdtool_py)
 		;
 	def("ConvertShotUSD", ConvertShotUSD);
 	def("ConvertShotAnimLayer", ConvertShotAnimLayer);
+	def("ConvertShotCfxLayer", ConvertShotCfxLayer);
 	def("CreateShotAnimALLLayer", CreateShotAnimALLLayer);
 }

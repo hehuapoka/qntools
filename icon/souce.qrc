@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="image">
+    <file>clock.png</file>
+    <file>pick.png</file>
+    <file>usd.png</file>
+  </qresource>
+</RCC>

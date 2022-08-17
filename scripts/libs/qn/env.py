@@ -1,5 +1,7 @@
 import ctypes
 import os,sys
+plugin_root = os.environ['QNTOOLS']
+
 def getPythonVersion():
     _pv = sys.version.split(".")[0][-1]
     return _pv

@@ -452,6 +452,54 @@ bool CreateShotAnimLayer(std::vector<AnimCompositionInfo>& infos, const char* pa
 
 }
 
+bool CreateShotCfxLayer(std::vector<AnimCompositionInfo>& infos, const char* path)
+{
+	try {
+		auto stage = UsdStage::CreateNew(path);
+
+		if (infos.size() > 0)
+		{
+			SdfLayerRefPtr aa = SdfLayer::FindOrOpen(infos[0].anim_path);
+			InitUSDLayer(stage, aa->GetStartTimeCode(), aa->GetEndTimeCode());
+		}
+
+		//´´½¨Default his
+		auto anims = UsdGeomXform::Define(stage, SdfPath("/Anims"));
+		auto caches = UsdGeomXform::Define(stage, SdfPath("/Anims/Caches"));
+
+		for (int i = 0; i < infos.size(); i++)
+		{
+
+			if (infos[i].usd_type == USDTYPE::ANIM)
+			{
+				SdfPath root_sdfpath = SdfPath("/Anims/Caches/" + infos[i].prim_name);
+				SdfPath geo_sdfpath = SdfPath("/Anims/Caches/" + infos[i].prim_name + "/geo");
+				SdfPath render_sdfpath = SdfPath("/Anims/Caches/" + infos[i].prim_name + "/geo/render");
+
+				UsdPrim sub_xform = stage->DefinePrim(root_sdfpath);
+				UsdPrim geo_xform = stage->DefinePrim(geo_sdfpath);
+				UsdPrim render_xform = stage->DefinePrim(render_sdfpath);
+
+				if (infos[i].asset_path != "")
+					sub_xform.GetReferences().AddReference(infos[i].asset_path);
+				render_xform.GetReferences().AddReference(infos[i].anim_path);
+			}
+
+		}
+		stage->GetRootLayer()->Save();
+
+
+
+		return true;
+
+	}
+	catch (...)
+	{
+		return false;
+	}
+
+}
+
 
 void CreateShotAnimALLLayer(const std::string& path, const std::string& path2, const std::string& path3)
 {
