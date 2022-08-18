@@ -1,5 +1,25 @@
+#pragma once
 #include <ai.h>
+#include <cstdio>
+#include <vector>
 
+void SetShapeArrayFromVector(const std::vector<AtNode*>& n_v,AtNode* node,const char* name)
+{
+	AtArray* n_a = AiArrayAllocate(n_v.size(), 1, AI_TYPE_NODE);
+	for (size_t i = 0; i < n_v.size(); i++)
+	{
+		AiArraySetPtr(n_a, i, n_v[i]);
+	}
+	AiNodeSetArray(node, name, n_a);
+}
+void GetShapeArrayToVector(std::vector<AtNode*>& n_v,AtNode* node, const char* name)
+{
+	const AtArray* n_a = AiNodeGetArray(node, name);
+	for (size_t i = 0; i < AiArrayGetNumElements(n_a); i++)
+	{
+		n_v.push_back(static_cast<AtNode*>(AiArrayGetPtr(n_a, i)));
+	}
+}
 int main()
 {
 	// start an Arnold session, log to both a file and the console
@@ -7,88 +27,42 @@ int main()
 	AiMsgSetLogFileName("scene1.log");
 	AiMsgSetConsoleFlags(AI_LOG_ALL);
 
-	// create a sphere geometric primitive
-	/*AtNode* sph = AiNode("sphere");
-	AiNodeSetStr(sph, "name", "mysphere");
-	AiNodeSetVec(sph, "center", 0.0f, 4.0f, 0.0f);
-	AiNodeSetFlt(sph, "radius", 4.0f);*/
-
-
-	AtNode* create_sphere = AiNode("create_spheres");
-	/*AiNodeSetStr(sph, "name", "mysphere");
-	AiNodeSetVec(sph, "center", 0.0f, 4.0f, 0.0f);
-	AiNodeSetFlt(sph, "radius", 4.0f);*/
 	
 
 
-	// create a red standard surface shader
-	/*AtNode* shader1 = AiNode("standard_surface");
-	AiNodeSetStr(shader1, "name", "myshader1");
-	AiNodeSetRGB(shader1, "base_color", 1.0f, 0.02f, 0.02f);
-	AiNodeSetFlt(shader1, "specular", 0.05f);*/
+	//AtNode* create_sphere = AiNode("create_spheres");
+	/*AtArray* a = AiArray(6, 2, AI_TYPE_VECTOR2);
+	uint32_t num_a = AiArrayGetNumElements(a);
+	uint8_t num_b = AiArrayGetNumKeys(a);
+	size_t num_c = AiArrayGetDataSize(a);
+	size_t num_d = AiArrayGetKeySize(a);
 
 
-	// assign the shaders to the geometric objects
-	//AiNodeSetPtr(sph, "shader", shader1);
+	char str[80];
+	sprintf(str, "%d-->%d-->%d-->%d-->%d", num_a,num_b,num_c,num_d,sizeof(float));
+	AiMsgDebug(str);*/
+
+	AtNode* sphere = AiNode("sphere", "sphere0");
+	std::vector<AtNode*> a;
+	AtNode* light0=AiNode("point_light", "light0");
+	AtNode* light1=AiNode("point_light", "light1");
+	a.push_back(light0);
+	a.push_back(light1);
+
+	//AiNodeSetArray(sphere, "light_group", n_p);
+	SetShapeArrayFromVector(a, sphere, "light_group");
+
+	//AiASSWrite("test.ass");
+	std::vector<AtNode*> b;
+	GetShapeArrayToVector(b, sphere, "light_group");
+
+	for (AtNode* a : b)
+	{
+		AiMsgDebug(AiNodeGetName(a));
+	}
 
 
 
-
-
-	// create a perspective camera
-	AtNode* camera = AiNode("persp_camera");
-	AiNodeSetStr(camera, "name", "mycamera");
-	// position the camera (alternatively you can set 'matrix')
-	AiNodeSetVec(camera, "position", 0.f, 10.f, 35.f);
-	AiNodeSetVec(camera, "look_at", 0.f, 3.f, 0.f);
-	AiNodeSetFlt(camera, "fov", 45.f);
-
-	AtNode* light = AiNode("skydome_light");
-	AiNodeSetStr(light, "name", "domelight");
-	AiNodeSetFlt(light, "intensity", 0.3f); // alternatively, use 'exposure'
-	// create a point light source
-	AtNode* light1 = AiNode("point_light");
-	AiNodeSetStr(light1, "name", "mylight");
-	// position the light (alternatively use 'matrix')
-	AiNodeSetVec(light1, "position", 15.f, 30.f, 15.f);
-	AiNodeSetFlt(light1, "intensity", 4500.f); // alternatively, use 'exposure'
-	AiNodeSetFlt(light1, "radius", 4.f); // for soft shadows
-
-	// get the global options node and set some options
-	AtNode* options = AiUniverseGetOptions();
-	AiNodeSetInt(options, "AA_samples", 8);
-	AiNodeSetInt(options, "xres", 480);
-	AiNodeSetInt(options, "yres", 360);
-	AiNodeSetInt(options, "GI_diffuse_depth", 4);
-	// set the active camera (optional, since there is only one camera)
-	AiNodeSetPtr(options, "camera", camera);
-	AiNodeSetPtr(options, "operator", create_sphere);
-
-	// create an output driver node
-	AtNode* driver = AiNode("driver_jpeg");
-	AiNodeSetStr(driver, "name", "mydriver");
-	AiNodeSetStr(driver, "filename", "scene1.jpg");
-
-	// create a gaussian filter node
-	AtNode* filter = AiNode("gaussian_filter");
-	AiNodeSetStr(filter, "name", "myfilter");
-
-	// assign the driver and filter to the main (beauty) AOV,
-	// which is called "RGBA" and is of type RGBA
-	AtArray* outputs_array = AiArrayAllocate(1, 1, AI_TYPE_STRING);
-	AiArraySetStr(outputs_array, 0, "RGBA RGBA myfilter mydriver");
-	AiNodeSetArray(options, "outputs", outputs_array);
-
-	
-	//save ass
-	//AiASSWrite("scene.ass");
-	// finally, render the image!
-	AiRender(AI_RENDER_MODE_CAMERA);
-
-	// ... or you can write out an .ass file instead
-	//AiASSWrite("scene1.ass", AI_NODE_ALL, FALSE);
-
-	// Arnold session shutdown
 	AiEnd();
 
 	return 0;

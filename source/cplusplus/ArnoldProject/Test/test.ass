@@ -1,0 +1,27 @@
+### exported: Thu Aug 18 12:57:29 2022
+### from:     Arnold 7.1.2.1 [a66d2c1f] windows clang-10.0.1 oiio-2.4.0 osl-1.12.0 vdb-7.1.1 adlsdk-6.3.1.44 clmhub-2.0.0.235 rlm-14.1.3 optix-6.6.0 2022/06/23 15:50:29
+### meters_per_unit: 1.000000
+
+
+
+options
+{
+}
+
+sphere
+{
+ name sphere0
+ light_group 2 1 NODE
+"light0" "light1"
+}
+
+point_light
+{
+ name light0
+}
+
+point_light
+{
+ name light1
+}
+

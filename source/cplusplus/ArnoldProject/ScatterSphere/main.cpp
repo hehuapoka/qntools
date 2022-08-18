@@ -6,9 +6,7 @@ AI_OPERATOR_NODE_EXPORT_METHODS(OpMethods);
 
 node_parameters
 {
-    AiParameterStr("selection_shape", "");
-    AiParameterStr("selection_light", "");
-    //AiParameterBool("shadow_by_light", true);
+    AiParameterStr("selection", "");
 }
 
 operator_init
@@ -23,39 +21,23 @@ operator_cleanup
 
 operator_cook
 {
-    AtString shape_name = AiNodeGetStr(op,"selection_shape");
-    AtString light_name = AiNodeGetStr(op, "selection_light");
-
-    //获取灯光
-    AtNodeIterator* lightsIt = AiUniverseGetNodeIterator(AI_NODE_LIGHT);
-
-    std::vector<AtNode*> lights;
-    while (!AiNodeIteratorFinished(lightsIt))
-    {
-        AtNode* node_l = AiNodeIteratorGetNext(lightsIt);
-        if (node_l)
-        {
-            lights.push_back(node_l);
-        }
-    }
-    AiNodeIteratorDestroy(lightsIt);
-
-
 
 
     //循环每一个shape
-    AtNodeIterator* shapesIt = AiUniverseGetNodeIterator(AiNodeGetUniverse(op),AI_NODE_SHAPE);
+    /*AtNodeIterator* shapesIt = AiUniverseGetNodeIterator(AI_NODE_SHAPE);
     while (!AiNodeIteratorFinished(shapesIt))
     {
         AtNode* node_s = AiNodeIteratorGetNext(shapesIt);
 
-        if (AiOpMatchNodeSelection(node_s, shape_name, true, op))
-        {
-            AiNodeSetBool(node_s, AtString("matte"), true);
-            //AtArray * n_a =AiNodeGetArray(node_s, "light_group");
-        }
+
+
     }
-    AiNodeIteratorDestroy(shapesIt);
+    AiNodeIteratorDestroy(shapesIt);*/
+
+    const AtNodeEntry* a = AiNodeGetNodeEntry(node);
+    if (AiNodeEntryGetType(a) != AI_NODE_SHAPE) return 1;
+
+    AiMsgWarning("info----->%s", AiNodeGetName(node));
 
 
 
@@ -74,7 +56,7 @@ node_loader
 
     node->methods = OpMethods;
     node->output_type = AI_TYPE_NONE;
-    node->name = AtString("light_link_op");
+    node->name = AtString("make_info");
     node->node_type = AI_NODE_OPERATOR;
     strcpy_s(node->version, AI_VERSION);
 

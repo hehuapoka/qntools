@@ -149,11 +149,6 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ScatterSphere\ScatterSphere.vcxproj">
-      <Project>{1c5e43a0-ddf8-44a6-b7b6-d23d7d2b35d3}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
